@@ -51,8 +51,15 @@
     {#each templates as template}
       <div class="border rounded-lg overflow-hidden shadow-md bg-white">
         <div class="h-48 bg-gray-200 flex items-center justify-center">
-          <!-- Placeholder for template image -->
-          <div class="text-gray-400 text-lg">[Template Preview]</div>
+          {#if template.image}
+            <img 
+              src={template.image} 
+              alt={template.name} 
+              class="h-full w-full object-cover"
+            />
+          {:else}
+            <div class="text-gray-400 text-lg">[Template Preview]</div>
+          {/if}
         </div>
         <div class="p-4">
           <h3 class="text-xl font-semibold mb-2">{template.name}</h3>
