@@ -1,0 +1,10 @@
+import { c as create_ssr_component } from "../../chunks/ssr.js";
+import "@sveltejs/kit/internal";
+import "../../chunks/exports.js";
+import "../../chunks/state.svelte.js";
+const Page = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+  return `${$$result.head += `<!-- HEAD_svelte-gu7x89_START -->${$$result.title = `<title>Resume Builder - Create Professional Resumes</title>`, ""}<!-- HEAD_svelte-gu7x89_END -->`, ""} <section class="py-12 text-center"><h1 class="text-4xl font-bold mb-4" data-svelte-h="svelte-q3v34v">Create Your Professional Resume</h1> <p class="text-xl mb-8" data-svelte-h="svelte-oa5xna">Build a standout resume in minutes with our easy-to-use builder</p> <button class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition" data-svelte-h="svelte-t0qqt6">Get Started</button></section> <section class="py-12 bg-white" data-svelte-h="svelte-dvzsha"><div class="container mx-auto px-4"><h2 class="text-3xl font-bold mb-8 text-center">Key Features</h2> <div class="grid md:grid-cols-3 gap-8"><div class="bg-gray-50 p-6 rounded-lg shadow"><h3 class="text-xl font-semibold mb-3">Easy to Use</h3> <p>Simple interface that guides you through the resume building process step by step.</p></div> <div class="bg-gray-50 p-6 rounded-lg shadow"><h3 class="text-xl font-semibold mb-3">Professional Templates</h3> <p>Choose from a variety of professionally designed resume templates.</p></div> <div class="bg-gray-50 p-6 rounded-lg shadow"><h3 class="text-xl font-semibold mb-3">PDF Export</h3> <p>Download your completed resume in PDF format, ready to send to potential employers.</p></div></div></div></section> <section class="py-12"><div class="container mx-auto px-4 text-center"><h2 class="text-3xl font-bold mb-6" data-svelte-h="svelte-k28lne">Ready to Create Your Resume?</h2> <button class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition" data-svelte-h="svelte-1g07irt">Start Building Now</button></div></section>`;
+});
+export {
+  Page as default
+};
