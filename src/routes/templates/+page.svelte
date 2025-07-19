@@ -25,6 +25,12 @@
       name: 'Executive', 
       description: 'An elegant template for senior positions and leadership roles',
       image: '/templates/executive.png' 
+    },
+    {
+      id: 'classic',
+      name: 'Classic',
+      description: 'A classic, ATS-friendly resume template',
+      image: '/templates/classic.png'
     }
   ];
 
