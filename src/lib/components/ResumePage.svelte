@@ -1,4 +1,4 @@
-<div class="resume-page" style="break-after: page;">
+<div class="resume-page">
   <slot></slot>
 </div>
 
