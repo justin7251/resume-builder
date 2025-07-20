@@ -47,10 +47,13 @@
   async function handleExportToPdf() {
     const resumeElement = document.getElementById('resume-preview');
     if (!resumeElement) return;
+
+    resumeElement.classList.add('no-border-width');
     
     try {
       const canvas = await html2canvas(resumeElement, {
         scale: 2,
+        backgroundColor: '#ffffff',
         useCORS: true,
         logging: false
       });
@@ -74,7 +77,10 @@
     } catch (error) {
       console.error('Error generating PDF:', error);
       alert('Failed to generate PDF. Please try again.');
+    } finally {
+      resumeElement.classList.remove('no-border-width');
     }
+
   }
 
   // Save to localStorage

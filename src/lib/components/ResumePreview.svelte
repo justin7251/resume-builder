@@ -16,7 +16,7 @@
   
   <div class="p-6 overflow-auto max-h-[800px]">
     <!-- Resume Preview -->
-    <div id="resume-preview" class="bg-white shadow-inner border p-8">
+    <div id="resume-preview" class="border p-8">
       <!-- Professional Template -->
       {#if templateId === 'professional'}
         <div class="mb-6 border-b pb-6">
@@ -431,8 +431,8 @@
         </div>
       {:else if templateId === 'classic'}
         <ClassicResume resume={resumeData} />
-      {:else if templateId === 'artistic'}
-        <ArtisticResume resume={resumeData} />
+      {:else if templateId === 'casecade'}
+        <CascadeResume resume={resumeData} />
       {/if}
     </div>
   </div>
