@@ -1,6 +1,8 @@
 <script lang="ts">
   import type { ResumeData } from '$lib/types';
   import ClassicResume from './ClassicResume.svelte';
+  import CascadeResume from './CascadeResume.svelte';
+
 
   export let resumeData: ResumeData;
   export let templateId: string = 'professional';
@@ -429,6 +431,8 @@
         </div>
       {:else if templateId === 'classic'}
         <ClassicResume resume={resumeData} />
+      {:else if templateId === 'artistic'}
+        <ArtisticResume resume={resumeData} />
       {/if}
     </div>
   </div>

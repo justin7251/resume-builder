@@ -2,6 +2,12 @@
   import { goto } from '$app/navigation';
 
   const templates = [
+    {
+      id: 'classic',
+      name: 'Classic',
+      description: 'A classic, ATS-friendly resume template',
+      image: '/templates/classic.png'
+    },
     { 
       id: 'professional',
       name: 'Professional', 
@@ -27,10 +33,10 @@
       image: '/templates/executive.png' 
     },
     {
-      id: 'classic',
-      name: 'Classic',
-      description: 'A classic, ATS-friendly resume template',
-      image: '/templates/classic.png'
+      id: 'casecade', 
+      name: 'Casecade', 
+      description: 'Cascade features a sleek two-column layout with bold contrasts and exceptional readability, making it perfect for artists and designers to creatively showcase their work and personality',
+      image: '/templates/casecade.png' 
     }
   ];
 
@@ -43,20 +49,16 @@
   <title>Resume Templates - Resume Builder</title>
 </svelte:head>
 
-<div class="max-w-5xl mx-auto">
+<div class="max-w-6xl mx-auto">
   <h1 class="text-3xl font-bold mb-6">Resume Templates</h1>
   <p class="mb-8 text-gray-700">Choose a template to get started with your resume.</p>
 
-  <div class="grid md:grid-cols-2 gap-6">
+  <div class="grid md:grid-cols-3 gap-6">
     {#each templates as template}
       <div class="border rounded-lg overflow-hidden shadow-md bg-white">
-        <div class="h-48 bg-gray-200 flex items-center justify-center">
+        <div class="bg-gray-200">
           {#if template.image}
-            <img 
-              src={template.image} 
-              alt={template.name} 
-              class="h-full w-full object-cover"
-            />
+            <img src={template.image} alt="{template.name} template preview" class="w-full h-full object-cover">
           {:else}
             <div class="text-gray-400 text-lg">[Template Preview]</div>
           {/if}
