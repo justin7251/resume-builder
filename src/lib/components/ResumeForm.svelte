@@ -1,13 +1,24 @@
 <script lang="ts">
   import { createEventDispatcher, onMount } from 'svelte';
   import type { ResumeData } from '$lib/types';
-  import { quill } from 'svelte-quill';
+  import Quill from 'quill';
   import 'quill/dist/quill.snow.css';
 
   export let resumeData: ResumeData;
 
   const dispatch = createEventDispatcher();
   let activeSection = 'personal';
+
+  function quillAction(node: HTMLElement, options: any) {
+    const quill = new Quill(node, {
+      ...options,
+      theme: 'snow'
+    });
+    quill.on('text-change', () => {
+      const html = node.querySelector('.ql-editor')?.innerHTML;
+      dispatch('quill-change', { html });
+    });
+  }
 
   // Functions to manage resume sections
   function addExperience() {
@@ -158,10 +169,9 @@
         
         <div>
           <label class="block mb-1 font-medium">Professional Summary</label>
-          <div use:quill={{
-            placeholder: 'Experienced software developer with 5+ years specializing in web applications...',
-            modules: { toolbar: true }
-          }} on:text-change={(e) => resumeData.personal.summary = e.detail.html}></div>
+          <div use:quillAction={{
+            placeholder: 'Experienced software developer with 5+ years specializing in web applications...'
+          }} on:quill-change={(e) => resumeData.personal.summary = e.detail.html}></div>
         </div>
       </div>
     {/if}
@@ -243,10 +253,9 @@
             
             <div>
               <label class="block mb-1 font-medium">Description</label>
-              <div use:quill={{
-                placeholder: 'Describe your responsibilities and achievements...',
-                modules: { toolbar: true }
-              }} on:text-change={(e) => exp.description = e.detail.html}></div>
+              <div use:quillAction={{
+                placeholder: 'Describe your responsibilities and achievements...'
+              }} on:quill-change={(e) => exp.description = e.detail.html}></div>
             </div>
           </div>
         {/each}
@@ -335,10 +344,9 @@
             
             <div>
               <label class="block mb-1 font-medium">Description</label>
-              <div use:quill={{
-                placeholder: 'Additional information about your education...',
-                modules: { toolbar: true }
-              }} on:text-change={(e) => edu.description = e.detail.html}></div>
+              <div use:quillAction={{
+                placeholder: 'Additional information about your education...'
+              }} on:quill-change={(e) => edu.description = e.detail.html}></div>
             </div>
           </div>
         {/each}
