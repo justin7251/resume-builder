@@ -4,29 +4,31 @@
   export let resume: ResumeData;
 </script>
 
-<div class="p-8 bg-gray-100 text-gray-800 font-sans">
-  <div class="text-center mb-8">
-    <h1 class="text-5xl font-bold text-indigo-600 tracking-wider">{resume.personal.name}</h1>
-    <p class="text-xl text-gray-600 mt-2">{resume.personal.title}</p>
-  </div>
+<div class="bg-white text-gray-800 font-sans text-sm">
+  <div class="flex">
+    <!-- Left Column -->
+    <div class="w-1/3 bg-gray-800 text-white p-6">
+      <div class="text-center mb-6">
+        <h1 class="text-3xl font-bold">{resume.personal.name}</h1>
+        <p class="text-lg text-gray-400">{resume.personal.title}</p>
+      </div>
 
-  <div class="grid grid-cols-3 gap-8">
-    <div class="col-span-1">
-      <div class="mb-6">
-        <h2 class="text-2xl font-bold text-indigo-500 mb-4">Contact</h2>
+      <div class="mb-4">
+        <h2 class="text-xl font-semibold text-gray-300 mb-2 border-b border-gray-600 pb-1">Contact</h2>
         <p>{resume.personal.email}</p>
         <p>{resume.personal.phone}</p>
         <p>{resume.personal.location}</p>
         <p>{resume.personal.website}</p>
       </div>
+
       <div>
-        <h2 class="text-2xl font-bold text-indigo-500 mb-4">Skills</h2>
+        <h2 class="text-xl font-semibold text-gray-300 mb-2 border-b border-gray-600 pb-1">Skills</h2>
         <ul>
           {#each resume.skills as skill}
             <li class="mb-2">
               <span class="font-semibold">{skill.name}</span>
-              <div class="w-full bg-gray-300 rounded-full h-2.5">
-                <div class="bg-indigo-600 h-2.5 rounded-full" style="width: {skill.level * 10}%"></div>
+              <div class="w-full bg-gray-600 rounded-full h-1.5 mt-1">
+                <div class="bg-blue-400 h-1.5 rounded-full" style="width: {skill.level * 10}%"></div>
               </div>
             </li>
           {/each}
@@ -34,29 +36,32 @@
       </div>
     </div>
 
-    <div class="col-span-2">
-      <div class="mb-6">
-        <h2 class="text-3xl font-bold text-indigo-500 mb-4">Summary</h2>
-        <p>{@html resume.personal.summary}</p>
+    <!-- Right Column -->
+    <div class="w-2/3 p-6">
+      <div class="mb-4">
+        <h2 class="text-2xl font-bold text-gray-700 mb-2 border-b border-gray-300 pb-1">Summary</h2>
+        <p class="text-gray-600">{@html resume.personal.summary}</p>
       </div>
-      <div class="mb-6">
-        <h2 class="text-3xl font-bold text-indigo-500 mb-4">Experience</h2>
+
+      <div class="mb-4">
+        <h2 class="text-2xl font-bold text-gray-700 mb-2 border-b border-gray-300 pb-1">Experience</h2>
         {#each resume.experience as job}
-          <div class="mb-4">
-            <h3 class="text-2xl font-bold">{job.position}</h3>
-            <p class="font-semibold text-lg">{job.company}</p>
-            <p class="text-sm text-gray-600">{job.startDate} - {job.endDate}</p>
-            <p class="mt-2">{@html job.description}</p>
+          <div class="mb-3">
+            <h3 class="text-xl font-bold">{job.position}</h3>
+            <p class="font-semibold text-md text-gray-600">{job.company}</p>
+            <p class="text-xs text-gray-500">{job.startDate} - {job.endDate}</p>
+            <div class="mt-1 text-gray-600">{@html job.description}</div>
           </div>
         {/each}
       </div>
+
       <div>
-        <h2 class="text-3xl font-bold text-indigo-500 mb-4">Education</h2>
+        <h2 class="text-2xl font-bold text-gray-700 mb-2 border-b border-gray-300 pb-1">Education</h2>
         {#each resume.education as edu}
-          <div class="mb-4">
-            <h3 class="text-2xl font-bold">{edu.degree}</h3>
-            <p class="font-semibold text-lg">{edu.institution}</p>
-            <p class="text-sm text-gray-600">{edu.startDate} - {edu.endDate}</p>
+          <div class="mb-3">
+            <h3 class="text-xl font-bold">{edu.degree}</h3>
+            <p class="font-semibold text-md text-gray-600">{edu.institution}</p>
+            <p class="text-xs text-gray-500">{edu.startDate} - {edu.endDate}</p>
           </div>
         {/each}
       </div>
