@@ -1,32 +1,12 @@
 <script lang="ts">
   import { createEventDispatcher, onMount } from 'svelte';
   import type { ResumeData } from '$lib/types';
-  import Quill from 'quill';
-  import 'quill/dist/quill.snow.css';
+  import TiptapEditor from './TiptapEditor.svelte';
 
   export let resumeData: ResumeData;
 
   const dispatch = createEventDispatcher();
   let activeSection = 'personal';
-
-  function quillAction(node: HTMLElement, options: { placeholder: string, callback: (html: string) => void }) {
-    const quill = new Quill(node, {
-      ...options,
-      theme: 'snow'
-    });
-    quill.on('text-change', () => {
-      const html = node.querySelector('.ql-editor')?.innerHTML;
-      if (html) {
-        options.callback(html);
-      }
-    });
-
-    return {
-      destroy() {
-        quill.off('text-change', options.callback);
-      }
-    }
-  }
 
   // Functions to manage resume sections
   function addExperience() {
@@ -183,10 +163,7 @@
         
         <div>
           <label for="summary" class="block mb-1 font-medium">Professional Summary</label>
-          <div id="summary" use:quillAction={{
-            placeholder: 'Experienced software developer with 5+ years specializing in web applications...',
-            callback: (html) => resumeData.personal.summary = html
-          }}></div>
+          <TiptapEditor bind:value={resumeData.personal.summary} />
         </div>
       </div>
     {/if}
@@ -272,10 +249,7 @@
             
             <div>
               <label for="exp-description-{i}" class="block mb-1 font-medium">Description</label>
-              <div id="exp-description-{i}" use:quillAction={{
-                placeholder: 'Describe your responsibilities and achievements...',
-                callback: (html) => exp.description = html
-              }}></div>
+              <TiptapEditor bind:value={exp.description} />
             </div>
           </div>
         {/each}
@@ -369,10 +343,7 @@
             
             <div>
               <label for="edu-description-{i}" class="block mb-1 font-medium">Description</label>
-              <div id="edu-description-{i}" use:quillAction={{
-                placeholder: 'Additional information about your education...',
-                callback: (html) => edu.description = html
-              }}></div>
+              <TiptapEditor bind:value={edu.description} />
             </div>
           </div>
         {/each}
