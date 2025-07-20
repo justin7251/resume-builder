@@ -45,53 +45,42 @@
 
   // Export to PDF
   async function handleExportToPdf() {
-    const resumeContainer = document.getElementById('resume-preview-container');
-    if (!resumeContainer) return;
+    const resumeElement = document.getElementById('resume-preview');
+    if (!resumeElement) return;
 
-    document.body.classList.add('printing');
-
-    const pdf = new jsPDF({
-      orientation: 'portrait',
-      unit: 'mm',
-      format: 'a4'
-    });
-
-    const pages = resumeContainer.querySelectorAll('.resume-page');
-
-    for (let i = 0; i < pages.length; i++) {
-      const page = pages[i] as HTMLElement;
-      try {
-        const canvas = await html2canvas(page, {
-          scale: 2,
-          backgroundColor: '#ffffff',
-          useCORS: true,
-          logging: false
-        });
-
-        const imgData = canvas.toDataURL('image/png');
-        const pdfWidth = pdf.internal.pageSize.getWidth();
-        const pdfHeight = pdf.internal.pageSize.getHeight();
-        const imgWidth = canvas.width;
-        const imgHeight = canvas.height;
-        const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
-
-        const imgX = (pdfWidth - imgWidth * ratio) / 2;
-
-        if (i > 0) {
-          pdf.addPage();
-        }
-
-        pdf.addImage(imgData, 'PNG', imgX, 0, imgWidth * ratio, imgHeight * ratio);
-      } catch (error) {
-        console.error('Error generating PDF for page:', i, error);
-        alert('Failed to generate PDF. Please try again.');
-        document.body.classList.remove('printing');
-        return;
-      }
+    resumeElement.classList.add('no-border-width');
+    
+    try {
+      const canvas = await html2canvas(resumeElement, {
+        scale: 2,
+        backgroundColor: '#ffffff',
+        useCORS: true,
+        logging: false
+      });
+      
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: 'a4'
+      });
+      
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+      const imgWidth = canvas.width;
+      const imgHeight = canvas.height;
+      const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
+      
+      const imgX = (pdfWidth - imgWidth * ratio) / 2;
+      pdf.addImage(imgData, 'PNG', imgX, 0, imgWidth * ratio, imgHeight * ratio);
+      pdf.save(`resume-${resumeData.personal.name || 'untitled'}.pdf`);
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+      alert('Failed to generate PDF. Please try again.');
+    } finally {
+      resumeElement.classList.remove('no-border-width');
     }
 
-    pdf.save(`resume-${resumeData.personal.name || 'untitled'}.pdf`);
-    document.body.classList.remove('printing');
   }
 
   // Save to localStorage
