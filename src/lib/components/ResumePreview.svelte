@@ -31,7 +31,7 @@
     <p class="text-sm text-gray-500">Template: {templateId}</p>
   </div>
   
-  <div class="overflow-auto max-h-[800px] bg-gray-100 p-4">
+  <div class="overflow-auto no-scrollbar max-h-[800px] bg-gray-100 p-4">
     <div id="resume-preview-container">
       {#each Array(pages) as _, i}
         <ResumePage>
@@ -470,6 +470,7 @@
 <style>
   .resume-content-wrapper {
     position: relative;
+    overflow: hidden;
   }
   .break-inside-avoid {
     break-inside: avoid;
