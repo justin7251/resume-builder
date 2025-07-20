@@ -1,12 +1,14 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte';
+  import { createEventDispatcher, onMount } from 'svelte';
   import type { ResumeData } from '$lib/types';
-  
+  import { quill } from 'svelte-quill';
+  import 'quill/dist/quill.snow.css';
+
   export let resumeData: ResumeData;
-  
+
   const dispatch = createEventDispatcher();
   let activeSection = 'personal';
-  
+
   // Functions to manage resume sections
   function addExperience() {
     resumeData.experience.push({ company: '', position: '', startDate: '', endDate: '', description: '', current: false });
@@ -156,13 +158,10 @@
         
         <div>
           <label class="block mb-1 font-medium">Professional Summary</label>
-          <textarea 
-            bind:value={resumeData.personal.summary} 
-            on:input={handleChange}
-            rows="4" 
-            class="w-full border rounded px-3 py-2"
-            placeholder="Experienced software developer with 5+ years specializing in web applications..."
-          ></textarea>
+          <div use:quill={{
+            placeholder: 'Experienced software developer with 5+ years specializing in web applications...',
+            modules: { toolbar: true }
+          }} on:text-change={(e) => resumeData.personal.summary = e.detail.html}></div>
         </div>
       </div>
     {/if}
@@ -244,13 +243,10 @@
             
             <div>
               <label class="block mb-1 font-medium">Description</label>
-              <textarea 
-                bind:value={exp.description} 
-                on:input={handleChange}
-                rows="3" 
-                class="w-full border rounded px-3 py-2"
-                placeholder="Describe your responsibilities and achievements..."
-              ></textarea>
+              <div use:quill={{
+                placeholder: 'Describe your responsibilities and achievements...',
+                modules: { toolbar: true }
+              }} on:text-change={(e) => exp.description = e.detail.html}></div>
             </div>
           </div>
         {/each}
@@ -339,13 +335,10 @@
             
             <div>
               <label class="block mb-1 font-medium">Description</label>
-              <textarea 
-                bind:value={edu.description}
-                on:input={handleChange} 
-                rows="3" 
-                class="w-full border rounded px-3 py-2"
-                placeholder="Additional information about your education..."
-              ></textarea>
+              <div use:quill={{
+                placeholder: 'Additional information about your education...',
+                modules: { toolbar: true }
+              }} on:text-change={(e) => edu.description = e.detail.html}></div>
             </div>
           </div>
         {/each}
