@@ -163,7 +163,7 @@
         
         <div>
           <label for="summary" class="block mb-1 font-medium">Professional Summary</label>
-          <TiptapEditor bind:value={resumeData.personal.summary} />
+          <TiptapEditor bind:value={resumeData.personal.summary} on:change={handleChange} />
         </div>
       </div>
     {/if}
@@ -249,7 +249,7 @@
             
             <div>
               <label for="exp-description-{i}" class="block mb-1 font-medium">Description</label>
-              <TiptapEditor bind:value={exp.description} />
+              <TiptapEditor bind:value={exp.description} on:change={handleChange} />
             </div>
           </div>
         {/each}
@@ -343,7 +343,7 @@
             
             <div>
               <label for="edu-description-{i}" class="block mb-1 font-medium">Description</label>
-              <TiptapEditor bind:value={edu.description} />
+              <TiptapEditor bind:value={edu.description} on:change={handleChange} />
             </div>
           </div>
         {/each}
