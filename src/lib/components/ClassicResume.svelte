@@ -32,6 +32,7 @@
         <h3 class="text-xl font-bold">{edu.degree}</h3>
         <p class="font-semibold">{edu.institution}</p>
         <p class="text-sm text-gray-600">{edu.startDate} - {edu.endDate}</p>
+        <div class="mt-1">{@html edu.description}</div>
       </div>
     {/each}
   </div>
