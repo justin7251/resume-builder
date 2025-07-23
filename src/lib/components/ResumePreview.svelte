@@ -61,7 +61,7 @@
           
           {#if resumeData.personal.summary}
             <div class="mt-4">
-              <div class="text-gray-700">{@html resumeData.personal.summary}</div>
+              <div class="text-gray-700 tiptap">{@html resumeData.personal.summary}</div>
             </div>
           {/if}
         </div>
@@ -80,7 +80,7 @@
                   </div>
                   <p class="text-gray-700">{exp.company || 'Company'}</p>
                   {#if exp.description}
-                    <div class="mt-1 text-sm text-gray-600">{@html exp.description}</div>
+                    <div class="mt-1 text-sm text-gray-600 tiptap">{@html exp.description}</div>
                   {/if}
                 </div>
               {/if}
@@ -102,7 +102,7 @@
                   </div>
                   <p class="text-gray-700">{edu.institution || 'Institution'}</p>
                   {#if edu.description}
-                    <div class="mt-1 text-sm text-gray-600">{@html edu.description}</div>
+                    <div class="mt-1 text-sm text-gray-600 tiptap">{@html edu.description}</div>
                   {/if}
                 </div>
               {/if}
@@ -191,7 +191,7 @@
             {#if resumeData.personal.summary}
               <div class="mb-6">
                 <h2 class="text-xl font-semibold text-purple-800 mb-2 border-b border-purple-200 pb-1">About Me</h2>
-                <div class="text-gray-700">{@html resumeData.personal.summary}</div>
+                <div class="text-gray-700 tiptap">{@html resumeData.personal.summary}</div>
               </div>
             {/if}
             
@@ -210,7 +210,7 @@
                       </div>
                       <p class="text-gray-700">{exp.company || 'Company'}</p>
                       {#if exp.description}
-                        <div class="mt-1 text-sm text-gray-600">{@html exp.description}</div>
+                        <div class="mt-1 text-sm text-gray-600 tiptap">{@html exp.description}</div>
                       {/if}
                     </div>
                   {/if}
@@ -233,7 +233,7 @@
                       </div>
                       <p class="text-gray-700">{edu.institution || 'Institution'}</p>
                       {#if edu.description}
-                        <div class="mt-1 text-sm text-gray-600">{@html edu.description}</div>
+                        <div class="mt-1 text-sm text-gray-600 tiptap">{@html edu.description}</div>
                       {/if}
                     </div>
                   {/if}
@@ -268,7 +268,7 @@
           
           {#if resumeData.personal.summary}
             <div class="mb-6">
-              <div class="text-gray-700">{@html resumeData.personal.summary}</div>
+              <div class="text-gray-700 tiptap">{@html resumeData.personal.summary}</div>
             </div>
           {/if}
           
@@ -288,7 +288,7 @@
                     </div>
                     <p class="text-gray-700">{exp.company || 'Company'}</p>
                     {#if exp.description}
-                      <div class="mt-2 text-sm text-gray-600">{@html exp.description}</div>
+                      <div class="mt-2 text-sm text-gray-600 tiptap">{@html exp.description}</div>
                     {/if}
                   </div>
                 {/if}
@@ -312,7 +312,7 @@
                     </div>
                     <p class="text-gray-700">{edu.institution || 'Institution'}</p>
                     {#if edu.description}
-                      <div class="mt-2 text-sm text-gray-600">{@html edu.description}</div>
+                      <div class="mt-2 text-sm text-gray-600 tiptap">{@html edu.description}</div>
                     {/if}
                   </div>
                 {/if}
@@ -392,7 +392,7 @@
               {#if resumeData.personal.summary}
                 <div class="mb-6">
                   <h2 class="text-lg font-semibold border-b border-gray-300 pb-2 mb-3">Professional Summary</h2>
-                  <div class="text-gray-700">{@html resumeData.personal.summary}</div>
+                  <div class="text-gray-700 tiptap">{@html resumeData.personal.summary}</div>
                 </div>
               {/if}
               
@@ -410,7 +410,7 @@
                         </div>
                         <p class="text-gray-700 italic">{exp.position || 'Position'}</p>
                         {#if exp.description}
-                          <div class="mt-2 text-sm text-gray-700">{@html exp.description}</div>
+                          <div class="mt-2 text-sm text-gray-700 tiptap">{@html exp.description}</div>
                         {/if}
                       </div>
                     {/if}
@@ -432,7 +432,7 @@
                         </div>
                         <p class="text-gray-700">{edu.degree || 'Degree'}{edu.field ? ` in ${edu.field}` : ''}</p>
                         {#if edu.description}
-                          <div class="mt-1 text-sm text-gray-600">{@html edu.description}</div>
+                          <div class="mt-1 text-sm text-gray-600 tiptap">{@html edu.description}</div>
                         {/if}
                       </div>
                     {/if}
