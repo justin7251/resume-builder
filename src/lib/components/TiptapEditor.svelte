@@ -42,8 +42,14 @@
     <button on:click={() => editor.chain().focus().toggleStrike().run()} class:is-active={editor?.isActive('strike')}>
       Strike
     </button>
+    <button on:click={() => editor.chain().focus().toggleBulletList().run()} class:is-active={editor?.isActive('bulletList')}>
+      Bullet List
+    </button>
+    <button on:click={() => editor.chain().focus().toggleOrderedList().run()} class:is-active={editor?.isActive('orderedList')}>
+      Ordered List
+    </button>
   </div>
-  <div bind:this={element}></div>
+  <div bind:this={element} class="tiptap"></div>
 </div>
 
 <style>
