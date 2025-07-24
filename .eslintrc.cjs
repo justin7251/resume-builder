@@ -1,7 +1,7 @@
 module.exports = {
   root: true,
   parser: '@typescript-eslint/parser',
-  extends: ['eslint:recommended', 'plugin:svelte/recommended'],
+  extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended'],
   plugins: ['@typescript-eslint'],
   ignorePatterns: ['*.cjs'],
   overrides: [
@@ -23,6 +23,6 @@ module.exports = {
     node: true
   },
   rules: {
-    'svelte/no-inner-declarations': 'off'
+    'no-inner-declarations': 'off'
   }
 };
