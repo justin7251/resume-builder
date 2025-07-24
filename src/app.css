@@ -16,3 +16,17 @@
     list-style-type: decimal;
     margin-left: 20px;
 }
+
+/* Add a sticky CTA button for mobile view */
+.sticky-cta {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    display: none; /* Hidden by default */
+}
+
+@media (max-width: 768px) {
+    .sticky-cta {
+        display: block; /* Show on screens smaller than 768px */
+    }
+}

@@ -20,6 +20,7 @@
     "@tiptap/pm": "2.26.1",
     "@tiptap/starter-kit": "2.26.1",
     "@types/quill": "^2.0.14",
+    "@typescript-eslint/eslint-plugin": "^8.38.0",
     "@typescript-eslint/parser": "latest",
     "autoprefixer": "^10.4.16",
     "eslint": "^8.55.0",
@@ -35,5 +36,8 @@
     "typescript": "^5.0.0",
     "vite": "latest",
     "wrangler": "latest"
+  },
+  "dependencies": {
+    "svelte-feather-icons": "^4.2.0"
   }
 }
