@@ -2,6 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+.job-title {
+    @apply text-xl font-bold;
+    line-height: 1;
+}
+
+.company-name {
+    @apply font-semibold text-md text-gray-600;
+}
+
+.resume-template {
+    line-height: 1;
+}
+
 .no-border-width {
     border-width: 0 !important;
 }
