@@ -4,7 +4,7 @@
   export let resume: ResumeData;
 </script>
 
-<div class="bg-white text-gray-800 font-sans text-sm">
+<div class="bg-white text-gray-800 font-sans text-sm" style="line-height: 1.15;">
   <div class="flex">
     <!-- Left Column -->
     <div class="w-1/3 bg-gray-800 text-white p-6">
@@ -47,7 +47,7 @@
         <h2 class="text-2xl font-bold text-gray-700 mb-2 border-b border-gray-300 pb-1">Experience</h2>
         {#each resume.experience as job}
           <div class="mb-3">
-            <h3 class="text-xl font-bold">{job.position}</h3>
+            <h3 class="text-xl font-bold" style="font-style: italic;">{job.position}</h3>
             <p class="font-semibold text-md text-gray-600">{job.company}</p>
             <p class="text-xs text-gray-500">{job.startDate} - {job.endDate}</p>
             <div class="mt-1 text-gray-600">{@html job.description}</div>
