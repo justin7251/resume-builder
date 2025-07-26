@@ -8,7 +8,7 @@
 }
 
 .company-name {
-    @apply font-semibold text-md text-gray-600;
+    @apply font-semibold text-gray-600;
 }
 
 .resume-template {
