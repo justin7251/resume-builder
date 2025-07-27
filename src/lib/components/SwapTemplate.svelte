@@ -21,11 +21,11 @@
   <div class="p-4 border-b">
     <h2 class="text-xl font-semibold">Swap Template</h2>
   </div>
-  <div class="p-4 grid grid-cols-2 md:grid-cols-3 gap-4">
+  <div class="p-4 overflow-x-auto flex space-x-4">
     {#each templates as template}
       <button
         on:click={() => selectTemplate(template.id)}
-        class="border rounded-lg overflow-hidden transition-shadow duration-200 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        class="flex-shrink-0 w-40 border rounded-lg overflow-hidden transition-shadow duration-200 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
       >
         <img src={template.imageUrl} alt={template.name} class="w-full h-auto object-cover">
         <div class="p-2 text-center">
