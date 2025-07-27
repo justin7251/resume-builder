@@ -6,10 +6,12 @@
   import html2canvas from 'html2canvas';
   import ResumeForm from '$lib/components/ResumeForm.svelte';
   import ResumePreview from '$lib/components/ResumePreview.svelte';
+  import SwapTemplate from '$lib/components/SwapTemplate.svelte';
   import type { ResumeData } from '$lib/types';
 
   // Get template from URL parameter
   let templateId = $page.url.searchParams.get('template') || 'professional';
+  let showTemplateSwitcher = false;
 
   // Create resume store with default data
   const resume = writable<ResumeData>({
@@ -112,9 +114,21 @@
 </svelte:head>
 
 <div class="max-w-7xl mx-auto">
-  <h1 class="text-3xl font-bold mb-6">Build Your Resume</h1>
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-3xl font-bold">Build Your Resume</h1>
+    <button
+      on:click={() => showTemplateSwitcher = !showTemplateSwitcher}
+      class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors"
+    >
+      {showTemplateSwitcher ? 'Hide Templates' : 'Swap Template'}
+    </button>
+  </div>
+
+  {#if showTemplateSwitcher}
+    <SwapTemplate on:select={(e) => templateId = e.detail} />
+  {/if}
   
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
     <!-- Editor Panel -->
     <ResumeForm 
       {resumeData} 
