@@ -1,12 +1,12 @@
 <script lang="ts">
   import type { ResumeData } from '$lib/types';
-  export let resumeData: ResumeData;
+  export let resume: ResumeData;
 </script>
 
 <div class="border-t-8 border-gray-800">
   <div class="py-6 border-b border-gray-300">
-    <h1 class="text-4xl font-bold text-gray-800">{resumeData.personal.name || 'Your Name'}</h1>
-    <p class="text-xl text-gray-700 mt-2">{resumeData.personal.title || 'Professional Title'}</p>
+    <h1 class="text-4xl font-bold text-gray-800">{resume.personal.name || 'Your Name'}</h1>
+    <p class="text-xl text-gray-700 mt-2">{resume.personal.title || 'Professional Title'}</p>
   </div>
 
   <div class="grid grid-cols-3 gap-6 mt-6">
@@ -15,34 +15,34 @@
       <div class="mb-6">
         <h2 class="text-lg font-semibold border-b border-gray-300 pb-2 mb-3">Contact Information</h2>
         <div class="space-y-2 text-sm">
-          {#if resumeData.personal.email}
+          {#if resume.personal.email}
             <div>
-              <span class="font-medium">Email:</span> {resumeData.personal.email}
+              <span class="font-medium">Email:</span> {resume.personal.email}
             </div>
           {/if}
-          {#if resumeData.personal.phone}
+          {#if resume.personal.phone}
             <div>
-              <span class="font-medium">Phone:</span> {resumeData.personal.phone}
+              <span class="font-medium">Phone:</span> {resume.personal.phone}
             </div>
           {/if}
-          {#if resumeData.personal.location}
+          {#if resume.personal.location}
             <div>
-              <span class="font-medium">Location:</span> {resumeData.personal.location}
+              <span class="font-medium">Location:</span> {resume.personal.location}
             </div>
           {/if}
-          {#if resumeData.personal.website}
+          {#if resume.personal.website}
             <div>
-              <span class="font-medium">Website:</span> {resumeData.personal.website}
+              <span class="font-medium">Website:</span> {resume.personal.website}
             </div>
           {/if}
         </div>
       </div>
 
-      {#if resumeData.skills.some(skill => skill.name)}
+      {#if resume.skills.some(skill => skill.name)}
         <div>
           <h2 class="text-lg font-semibold border-b border-gray-300 pb-2 mb-3">Core Competencies</h2>
           <ul class="list-disc pl-5 space-y-1">
-            {#each resumeData.skills as skill}
+            {#each resume.skills as skill}
               {#if skill.name}
                 <li>{skill.name}</li>
               {/if}
@@ -54,17 +54,17 @@
 
     <!-- Right Column -->
     <div class="col-span-3 md:col-span-2">
-      {#if resumeData.personal.summary}
+      {#if resume.personal.summary}
         <div class="mb-6">
           <h2 class="text-lg font-semibold border-b border-gray-300 pb-2 mb-3">Professional Summary</h2>
-          <div class="text-gray-700 tiptap">{@html resumeData.personal.summary}</div>
+          <div class="text-gray-700 tiptap">{@html resume.personal.summary}</div>
         </div>
       {/if}
 
-      {#if resumeData.experience.some(exp => exp.company || exp.position)}
+      {#if resume.experience.some(exp => exp.company || exp.position)}
         <div class="mb-6">
           <h2 class="text-lg font-semibold border-b border-gray-300 pb-2 mb-3">Professional Experience</h2>
-          {#each resumeData.experience as exp}
+          {#each resume.experience as exp}
             {#if exp.company || exp.position}
               <div class="mb-5">
                 <div class="flex justify-between">
@@ -83,10 +83,10 @@
         </div>
       {/if}
 
-      {#if resumeData.education.some(edu => edu.institution || edu.degree)}
+      {#if resume.education.some(edu => edu.institution || edu.degree)}
         <div>
           <h2 class="text-lg font-semibold border-b border-gray-300 pb-2 mb-3">Education</h2>
-          {#each resumeData.education as edu}
+          {#each resume.education as edu}
             {#if edu.institution || edu.degree}
               <div class="mb-4">
                 <div class="flex justify-between">

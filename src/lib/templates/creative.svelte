@@ -1,47 +1,47 @@
 <script lang="ts">
   import type { ResumeData } from '$lib/types';
-  export let resumeData: ResumeData;
+  export let resume: ResumeData;
 </script>
 
 <div class="flex flex-col md:flex-row gap-6">
   <!-- Sidebar -->
   <div class="md:w-1/3 bg-purple-100 p-6 rounded-lg">
     <div class="mb-6 text-center">
-      <h1 class="text-2xl font-bold text-purple-800">{resumeData.personal.name || 'Your Name'}</h1>
-      <p class="text-lg text-purple-600 mt-1">{resumeData.personal.title || 'Professional Title'}</p>
+      <h1 class="text-2xl font-bold text-purple-800">{resume.personal.name || 'Your Name'}</h1>
+      <p class="text-lg text-purple-600 mt-1">{resume.personal.title || 'Professional Title'}</p>
     </div>
 
     <div class="mb-6">
       <h2 class="text-lg font-semibold text-purple-700 mb-2 border-b border-purple-300 pb-1">Contact</h2>
       <div class="space-y-2 text-sm">
-        {#if resumeData.personal.email}
+        {#if resume.personal.email}
           <div class="flex items-center">
-            <span class="mr-2 text-purple-500">📧</span> {resumeData.personal.email}
+            <span class="mr-2 text-purple-500">📧</span> {resume.personal.email}
           </div>
         {/if}
-        {#if resumeData.personal.phone}
+        {#if resume.personal.phone}
           <div class="flex items-center">
-            <span class="mr-2 text-purple-500">📱</span> {resumeData.personal.phone}
+            <span class="mr-2 text-purple-500">📱</span> {resume.personal.phone}
           </div>
         {/if}
-        {#if resumeData.personal.location}
+        {#if resume.personal.location}
           <div class="flex items-center">
-            <span class="mr-2 text-purple-500">📍</span> {resumeData.personal.location}
+            <span class="mr-2 text-purple-500">📍</span> {resume.personal.location}
           </div>
         {/if}
-        {#if resumeData.personal.website}
+        {#if resume.personal.website}
           <div class="flex items-center">
-            <span class="mr-2 text-purple-500">🌐</span> {resumeData.personal.website}
+            <span class="mr-2 text-purple-500">🌐</span> {resume.personal.website}
           </div>
         {/if}
       </div>
     </div>
 
-    {#if resumeData.skills.some(skill => skill.name)}
+    {#if resume.skills.some(skill => skill.name)}
       <div>
         <h2 class="text-lg font-semibold text-purple-700 mb-2 border-b border-purple-300 pb-1">Skills</h2>
         <div class="space-y-2">
-          {#each resumeData.skills as skill}
+          {#each resume.skills as skill}
             {#if skill.name}
               <div>
                 <div class="flex justify-between text-sm">
@@ -61,17 +61,17 @@
 
   <!-- Main Content -->
   <div class="md:w-2/3">
-    {#if resumeData.personal.summary}
+    {#if resume.personal.summary}
       <div class="mb-6">
         <h2 class="text-xl font-semibold text-purple-800 mb-2 border-b border-purple-200 pb-1">About Me</h2>
-        <div class="text-gray-700 tiptap">{@html resumeData.personal.summary}</div>
+        <div class="text-gray-700 tiptap">{@html resume.personal.summary}</div>
       </div>
     {/if}
 
-    {#if resumeData.experience.some(exp => exp.company || exp.position)}
+    {#if resume.experience.some(exp => exp.company || exp.position)}
       <div class="mb-6">
         <h2 class="text-xl font-semibold text-purple-800 mb-3 border-b border-purple-200 pb-1">Experience</h2>
-        {#each resumeData.experience as exp}
+        {#each resume.experience as exp}
           {#if exp.company || exp.position}
             <div class="mb-4 relative pl-6">
               <div class="absolute left-0 top-2 w-3 h-3 rounded-full bg-purple-400"></div>
@@ -91,10 +91,10 @@
       </div>
     {/if}
 
-    {#if resumeData.education.some(edu => edu.institution || edu.degree)}
+    {#if resume.education.some(edu => edu.institution || edu.degree)}
       <div>
         <h2 class="text-xl font-semibold text-purple-800 mb-3 border-b border-purple-200 pb-1">Education</h2>
-        {#each resumeData.education as edu}
+        {#each resume.education as edu}
           {#if edu.institution || edu.degree}
             <div class="mb-4 relative pl-6">
               <div class="absolute left-0 top-2 w-3 h-3 rounded-full bg-purple-400"></div>

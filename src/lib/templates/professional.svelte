@@ -1,46 +1,46 @@
 <script lang="ts">
   import type { ResumeData } from '$lib/types';
-  export let resumeData: ResumeData;
+  export let resume: ResumeData;
 </script>
 
 <div class="mb-6 border-b pb-6">
-  <h1 class="text-3xl font-bold text-blue-800">{resumeData.personal.name || 'Your Name'}</h1>
-  <p class="text-xl text-gray-600 mt-1">{resumeData.personal.title || 'Professional Title'}</p>
+  <h1 class="text-3xl font-bold text-blue-800">{resume.personal.name || 'Your Name'}</h1>
+  <p class="text-xl text-gray-600 mt-1">{resume.personal.title || 'Professional Title'}</p>
 
   <div class="mt-3 flex flex-wrap gap-x-4 gap-y-2 text-sm text-gray-600">
-    {#if resumeData.personal.email}
+    {#if resume.personal.email}
       <div class="flex items-center">
-        <span class="mr-1">📧</span> {resumeData.personal.email}
+        <span class="mr-1">📧</span> {resume.personal.email}
       </div>
     {/if}
-    {#if resumeData.personal.phone}
+    {#if resume.personal.phone}
       <div class="flex items-center">
-        <span class="mr-1">📱</span> {resumeData.personal.phone}
+        <span class="mr-1">📱</span> {resume.personal.phone}
       </div>
     {/if}
-    {#if resumeData.personal.location}
+    {#if resume.personal.location}
       <div class="flex items-center">
-        <span class="mr-1">📍</span> {resumeData.personal.location}
+        <span class="mr-1">📍</span> {resume.personal.location}
       </div>
     {/if}
-    {#if resumeData.personal.website}
+    {#if resume.personal.website}
       <div class="flex items-center">
-        <span class="mr-1">🌐</span> {resumeData.personal.website}
+        <span class="mr-1">🌐</span> {resume.personal.website}
       </div>
     {/if}
   </div>
 
-  {#if resumeData.personal.summary}
+  {#if resume.personal.summary}
     <div class="mt-4">
-      <div class="text-gray-700 tiptap">{@html resumeData.personal.summary}</div>
+      <div class="text-gray-700 tiptap">{@html resume.personal.summary}</div>
     </div>
   {/if}
 </div>
 
-{#if resumeData.experience.some(exp => exp.company || exp.position)}
+{#if resume.experience.some(exp => exp.company || exp.position)}
   <div class="mb-6">
     <h2 class="text-xl font-bold text-blue-800 mb-3">Experience</h2>
-    {#each resumeData.experience as exp}
+    {#each resume.experience as exp}
       {#if exp.company || exp.position}
         <div class="mb-4">
           <div class="flex justify-between">
@@ -59,10 +59,10 @@
   </div>
 {/if}
 
-{#if resumeData.education.some(edu => edu.institution || edu.degree)}
+{#if resume.education.some(edu => edu.institution || edu.degree)}
   <div class="mb-6">
     <h2 class="text-xl font-bold text-blue-800 mb-3">Education</h2>
-    {#each resumeData.education as edu}
+    {#each resume.education as edu}
       {#if edu.institution || edu.degree}
         <div class="mb-4">
           <div class="flex justify-between">
@@ -81,11 +81,11 @@
   </div>
 {/if}
 
-{#if resumeData.skills.some(skill => skill.name)}
+{#if resume.skills.some(skill => skill.name)}
   <div>
     <h2 class="text-xl font-bold text-blue-800 mb-3">Skills</h2>
     <div class="flex flex-wrap gap-2">
-      {#each resumeData.skills as skill}
+      {#each resume.skills as skill}
         {#if skill.name}
           <div class="bg-blue-50 border border-blue-200 rounded px-3 py-1">
             <span class="font-medium">{skill.name}</span>
