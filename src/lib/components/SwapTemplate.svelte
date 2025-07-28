@@ -10,6 +10,7 @@
     { id: 'creative', name: 'Creative', imageUrl: '/templates/creative.png' },
     { id: 'minimal', name: 'Minimal', imageUrl: '/templates/minimal.png' },
     { id: 'executive', name: 'Executive', imageUrl: '/templates/executive.png' },
+    { id: 'cascade', name: 'Cascade', imageUrl: '/templates/cascade.png' },
   ];
 
   function selectTemplate(templateId: string) {
