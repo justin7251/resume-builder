@@ -33,10 +33,10 @@
       image: '/templates/executive.png' 
     },
     {
-      id: 'casecade', 
-      name: 'Casecade', 
+      id: 'cascade', 
+      name: 'Cascade', 
       description: 'Cascade features a sleek two-column layout with bold contrasts and exceptional readability, making it perfect for artists and designers to creatively showcase their work and personality',
-      image: '/templates/casecade.png' 
+      image: '/templates/cascade.png' 
     }
   ];
 
