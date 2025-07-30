@@ -14,7 +14,8 @@
       </div>
 
       <div class="mb-4">
-        <h2 class="text-xl font-semibold text-gray-300 mb-2 border-b border-gray-600 pb-1">Contact</h2>
+        <h2 class="text-xl font-semibold text-gray-300">Contact</h2>
+        <div class="h-px bg-gray-600 mt-1 mb-2"></div>
         <p>{resume.personal.email}</p>
         <p>{resume.personal.phone}</p>
         <p>{resume.personal.location}</p>
@@ -22,7 +23,8 @@
       </div>
 
       <div>
-        <h2 class="text-xl font-semibold text-gray-300 mb-2 border-b border-gray-600 pb-1">Skills</h2>
+        <h2 class="text-xl font-semibold text-gray-300">Skills</h2>
+        <div class="h-px bg-gray-600 mt-1 mb-2"></div>
         <ul>
           {#each resume.skills as skill}
             <li class="mb-2">
@@ -39,12 +41,14 @@
     <!-- Right Column -->
     <div class="w-2/3 p-6">
       <div class="mb-4">
-        <h2 class="text-2xl font-bold text-gray-700 mb-2 border-b border-gray-300 pb-1">Summary</h2>
+        <h2 class="text-2xl font-bold text-gray-700">Summary</h2>
+        <div class="h-px bg-gray-300 mt-1 mb-2"></div>
         <p class="text-gray-600">{@html resume.personal.summary}</p>
       </div>
 
       <div class="mb-4">
-        <h2 class="text-2xl font-bold text-gray-700 mb-2 border-b border-gray-300 pb-1">Experience</h2>
+        <h2 class="text-2xl font-bold text-gray-700">Experience</h2>
+        <div class="h-px bg-gray-300 mt-1 mb-2"></div>
         {#each resume.experience as job}
           <div class="mb-3">
             <h3 class="job-title">{job.position}</h3>
@@ -56,7 +60,8 @@
       </div>
 
       <div>
-        <h2 class="text-2xl font-bold text-gray-700 mb-2 border-b border-gray-300 pb-1">Education</h2>
+        <h2 class="text-2xl font-bold text-gray-700">Education</h2>
+        <div class="h-px bg-gray-300 mt-1 mb-2"></div>
         {#each resume.education as edu}
           <div class="mb-3">
             <h3 class="text-xl font-bold">{edu.degree}</h3>
