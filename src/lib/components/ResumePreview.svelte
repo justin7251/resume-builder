@@ -32,7 +32,7 @@
   </div>
   
   <div class="overflow-auto max-h-[800px]" bind:this={resumeElement}>
-    <div id="resume-preview" class="border p-8">
+    <div id="resume-preview" class="border p-8" style="padding-bottom: 1px;">
       <div class="resume-container">
         {#if component}
           <svelte:component this={component} resume={resumeData} />
