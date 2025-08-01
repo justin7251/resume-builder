@@ -17,6 +17,7 @@
     "@sveltejs/kit": "^2.25.1",
     "@sveltejs/vite-plugin-svelte": "latest",
     "@tiptap/core": "2.26.1",
+    "@tiptap/extension-underline": "2.26.1",
     "@tiptap/pm": "2.26.1",
     "@tiptap/starter-kit": "2.26.1",
     "@types/quill": "^2.0.14",

@@ -2,6 +2,7 @@
   import { onMount, onDestroy, createEventDispatcher } from 'svelte';
   import { Editor } from '@tiptap/core';
   import StarterKit from '@tiptap/starter-kit';
+  import Underline from '@tiptap/extension-underline';
   import type { Editor as EditorType } from '@tiptap/core';
 
   export let value: string;
@@ -15,6 +16,7 @@
       element: element,
       extensions: [
         StarterKit,
+        Underline,
       ],
       content: value,
       onUpdate: () => {
@@ -41,6 +43,9 @@
     </button>
     <button on:click={() => editor.chain().focus().toggleStrike().run()} class:is-active={editor?.isActive('strike')}>
       Strike
+    </button>
+    <button on:click={() => editor.chain().focus().toggleUnderline().run()} class:is-active={editor?.isActive('underline')}>
+      Underline
     </button>
     <button on:click={() => editor.chain().focus().toggleBulletList().run()} class:is-active={editor?.isActive('bulletList')}>
       Bullet List

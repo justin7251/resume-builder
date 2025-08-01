@@ -57,7 +57,8 @@
         scale: 2,
         backgroundColor: '#ffffff',
         useCORS: true,
-        logging: false
+        logging: false,
+        removeContainer: false
       });
       
       const imgData = canvas.toDataURL('image/png');
