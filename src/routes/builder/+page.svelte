@@ -58,7 +58,6 @@
         backgroundColor: '#ffffff',
         useCORS: true,
         logging: false,
-        removeContainer: false
       });
       
       const imgData = canvas.toDataURL('image/png');
@@ -70,12 +69,26 @@
       
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = pdf.internal.pageSize.getHeight();
+
       const imgWidth = canvas.width;
       const imgHeight = canvas.height;
-      const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
+
+      const ratio = pdfWidth / imgWidth;
+      const scaledImgHeight = imgHeight * ratio;
+
+      let heightLeft = scaledImgHeight;
+      let position = 0;
+
+      pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, scaledImgHeight);
+      heightLeft -= pdfHeight;
+
+      while (heightLeft > 0) {
+        position = -heightLeft;
+        pdf.addPage();
+        pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, scaledImgHeight);
+        heightLeft -= pdfHeight;
+      }
       
-      const imgX = (pdfWidth - imgWidth * ratio) / 2;
-      pdf.addImage(imgData, 'PNG', imgX, 0, imgWidth * ratio, imgHeight * ratio);
       pdf.save(`resume-${resumeData.personal.name || 'untitled'}.pdf`);
     } catch (error) {
       console.error('Error generating PDF:', error);
@@ -83,7 +96,6 @@
     } finally {
       resumeElement.classList.remove('no-border-width');
     }
-
   }
 
   // Save to localStorage
