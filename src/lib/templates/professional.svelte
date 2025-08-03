@@ -37,6 +37,13 @@
   {/if}
 </div>
 
+<style>
+  .tiptap ul {
+    list-style-type: disc;
+    padding-left: 1.5rem;
+  }
+</style>
+
 {#if resume.experience.some(exp => exp.company || exp.position)}
   <div class="mb-6">
     <h2 class="text-xl font-bold text-blue-800 mb-3">Experience</h2>

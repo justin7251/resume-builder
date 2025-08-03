@@ -10,7 +10,7 @@
 
   <div>
     <h2 class="text-2xl font-bold border-b-2 border-gray-800 pb-1 mb-4">Summary</h2>
-    <p>{@html resume.personal.summary}</p>
+    <p class="tiptap">{@html resume.personal.summary}</p>
   </div>
 
   <div class="mt-6">
@@ -20,7 +20,7 @@
         <h3 class="job-title">{job.position}</h3>
         <p class="company-name">{job.company}</p>
         <p class="text-sm text-gray-600">{job.startDate} - {job.endDate}</p>
-        <p>{@html job.description}</p>
+        <p class="tiptap">{@html job.description}</p>
       </div>
     {/each}
   </div>
@@ -32,7 +32,7 @@
         <h3 class="text-xl font-bold">{edu.degree}</h3>
         <p class="font-semibold">{edu.institution}</p>
         <p class="text-sm text-gray-600">{edu.startDate} - {edu.endDate}</p>
-        <div class="mt-1">{@html edu.description}</div>
+        <div class="mt-1 tiptap">{@html edu.description}</div>
       </div>
     {/each}
   </div>
@@ -42,3 +42,10 @@
     <p>{resume.skills.map(skill => skill.name).join(', ')}</p>
   </div>
 </div>
+
+<style>
+    .tiptap ul {
+        list-style-type: disc;
+        padding-left: 1.5rem;
+    }
+</style>

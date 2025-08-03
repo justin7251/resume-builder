@@ -107,3 +107,10 @@
     </div>
   </div>
 </div>
+
+<style>
+    .tiptap ul {
+        list-style-type: disc;
+        padding-left: 1.5rem;
+    }
+</style>

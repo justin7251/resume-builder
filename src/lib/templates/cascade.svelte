@@ -43,7 +43,7 @@
       <div class="mb-4">
         <h2 class="text-2xl font-bold text-gray-700">Summary</h2>
         <div class="h-px bg-gray-300 mt-1 mb-2"></div>
-        <p class="text-gray-600">{@html resume.personal.summary}</p>
+        <p class="text-gray-600 tiptap">{@html resume.personal.summary}</p>
       </div>
 
       <div class="mb-4">
@@ -54,7 +54,7 @@
             <h3 class="job-title">{job.position}</h3>
             <p class="company-name">{job.company}</p>
             <p class="text-xs text-gray-500">{job.startDate} - {job.endDate}</p>
-            <div class="mt-1 text-gray-600">{@html job.description}</div>
+            <div class="mt-1 text-gray-600 tiptap">{@html job.description}</div>
           </div>
         {/each}
       </div>
@@ -67,10 +67,17 @@
             <h3 class="text-xl font-bold">{edu.degree}</h3>
             <p class="font-semibold text-md text-gray-600">{edu.institution}</p>
             <p class="text-xs text-gray-500">{edu.startDate} - {edu.endDate}</p>
-            <div class="mt-1 text-gray-600">{@html edu.description}</div>
+            <div class="mt-1 text-gray-600 tiptap">{@html edu.description}</div>
           </div>
         {/each}
       </div>
     </div>
   </div>
 </div>
+
+<style>
+    .tiptap ul {
+        list-style-type: disc;
+        padding-left: 1.5rem;
+    }
+</style>

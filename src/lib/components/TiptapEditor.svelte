@@ -33,7 +33,7 @@
   });
 </script>
 
-<div class="border rounded p-2">
+<div class="border rounded p-2 tiptap-wrapper">
   <div class="flex space-x-2 mb-2">
     <button on:click={() => editor.chain().focus().toggleBold().run()} class:is-active={editor?.isActive('bold')}>
       Bold
@@ -61,5 +61,18 @@
   .is-active {
     background-color: #333;
     color: #fff;
+  }
+
+  .tiptap-wrapper .tiptap {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 0.5rem;
+    min-height: 150px;
+  }
+
+  .tiptap-wrapper .tiptap:focus {
+    outline: none;
+    border-color: #66afe9;
+    box-shadow: 0 0 0 1px #66afe9;
   }
 </style>
