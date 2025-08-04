@@ -33,7 +33,7 @@
     <p class="text-sm text-gray-500">Template: {templateId}</p>
   </div>
   
-  <div class="overflow-auto max-h-[800px] p-4 bg-gray-100">
+  <div class="overflow-auto overflow-x-hidden max-h-[800px] p-4 bg-gray-100">
     <div 
       id="resume-preview" 
       class="border p-8 bg-white shadow-lg mx-auto"
