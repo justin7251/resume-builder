@@ -5,7 +5,6 @@
 
   // In a real app, you might fetch this from a server or list them dynamically.
   const templates = [
-    { id: 'classic', name: 'Classic', imageUrl: '/templates/classic.png' },
     { id: 'professional', name: 'Professional', imageUrl: '/templates/professional.png' },
     { id: 'creative', name: 'Creative', imageUrl: '/templates/creative.png' },
     { id: 'minimal', name: 'Minimal', imageUrl: '/templates/minimal.png' },

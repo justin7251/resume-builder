@@ -26,6 +26,10 @@
     });
   });
 
+  $: if (editor && value !== editor.getHTML()) {
+    editor.commands.setContent(value || '', false);
+  }
+
   onDestroy(() => {
     if (editor) {
       editor.destroy();
@@ -35,22 +39,58 @@
 
 <div class="border rounded p-2 tiptap-wrapper">
   <div class="flex space-x-2 mb-2">
-    <button on:click={() => editor.chain().focus().toggleBold().run()} class:is-active={editor?.isActive('bold')}>
+    <button
+      on:click={() => editor?.chain().focus().toggleBold().run()}
+      class:is-active={editor?.isActive('bold')}
+      class:opacity-50={!editor}
+      class:cursor-not-allowed={!editor}
+      disabled={!editor}
+    >
       Bold
     </button>
-    <button on:click={() => editor.chain().focus().toggleItalic().run()} class:is-active={editor?.isActive('italic')}>
+    <button
+      on:click={() => editor?.chain().focus().toggleItalic().run()}
+      class:is-active={editor?.isActive('italic')}
+      class:opacity-50={!editor}
+      class:cursor-not-allowed={!editor}
+      disabled={!editor}
+    >
       Italic
     </button>
-    <button on:click={() => editor.chain().focus().toggleStrike().run()} class:is-active={editor?.isActive('strike')}>
+    <button
+      on:click={() => editor?.chain().focus().toggleStrike().run()}
+      class:is-active={editor?.isActive('strike')}
+      class:opacity-50={!editor}
+      class:cursor-not-allowed={!editor}
+      disabled={!editor}
+    >
       Strike
     </button>
-    <button on:click={() => editor.chain().focus().toggleUnderline().run()} class:is-active={editor?.isActive('underline')}>
+    <button
+      on:click={() => editor?.chain().focus().toggleUnderline().run()}
+      class:is-active={editor?.isActive('underline')}
+      class:opacity-50={!editor}
+      class:cursor-not-allowed={!editor}
+      disabled={!editor}
+    >
       Underline
     </button>
-    <button on:click={() => editor.chain().focus().toggleBulletList().run()} class:is-active={editor?.isActive('bulletList')}>
+    <button
+      on:click={() => editor?.chain().focus().toggleBulletList().run()}
+      class:is-active={editor?.isActive('bulletList')}
+      class:opacity-50={!editor}
+      class:cursor-not-allowed={!editor}
+      disabled={!editor}
+    >
       Bullet List
     </button>
-    <button on:click={() => editor.chain().focus().toggleOrderedList().run()} class:is-active={editor?.isActive('orderedList')}>
+    <button
+      on:click={() => editor?.chain().focus().toggleOrderedList().run()}
+      class:is-active={editor?.isActive('orderedList')}
+      class:opacity-50={!editor}
+      class:cursor-not-allowed={!editor}
+      disabled={!editor}
+    >
       Ordered List
     </button>
   </div>
