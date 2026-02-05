@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
+  import { onMount, onDestroy } from 'svelte';
   import { page } from '$app/stores';
   import { writable } from 'svelte/store';
   import { jsPDF } from 'jspdf';
@@ -12,6 +12,7 @@
   // Get template from URL parameter
   let templateId = $page.url.searchParams.get('template') || 'professional';
   let showTemplateSwitcher = false;
+  let showPdfPreview = false;
 
   // Create resume store with default data
   const resume = writable<ResumeData>({
@@ -51,8 +52,15 @@
     if (!resumeElement) return;
 
     resumeElement.classList.add('no-border-width');
+    document.body.classList.add('pdf-capture');
     
     try {
+      if ('fonts' in document) {
+        await (document as Document & { fonts: { ready: Promise<void> } }).fonts.ready;
+      }
+      await new Promise(requestAnimationFrame);
+      await new Promise(requestAnimationFrame);
+
       const canvas = await html2canvas(resumeElement, {
         scale: 2,
         backgroundColor: '#ffffff',
@@ -95,6 +103,7 @@
       alert('Failed to generate PDF. Please try again.');
     } finally {
       resumeElement.classList.remove('no-border-width');
+      document.body.classList.remove('pdf-capture');
     }
   }
 
@@ -120,6 +129,18 @@
       console.error('Error loading saved resume:', error);
     }
   });
+
+  $: {
+    if (showPdfPreview) {
+      document.body.classList.add('pdf-preview');
+    } else {
+      document.body.classList.remove('pdf-preview');
+    }
+  }
+
+  onDestroy(() => {
+    document.body.classList.remove('pdf-preview');
+  });
 </script>
 
 <svelte:head>
@@ -129,12 +150,22 @@
 <div class="max-w-7xl mx-auto">
   <div class="flex justify-between items-center mb-6">
     <h1 class="text-3xl font-bold">Build Your Resume</h1>
-    <button
-      on:click={() => showTemplateSwitcher = !showTemplateSwitcher}
-      class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors"
-    >
-      {showTemplateSwitcher ? 'Hide Templates' : 'Swap Template'}
-    </button>
+    <div class="flex items-center gap-3">
+      <button
+        on:click={() => showPdfPreview = !showPdfPreview}
+        class={`px-4 py-2 rounded-lg transition-colors ${
+          showPdfPreview ? 'bg-gray-800 text-white' : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
+        }`}
+      >
+        {showPdfPreview ? 'Exit PDF Preview' : 'PDF Preview'}
+      </button>
+      <button
+        on:click={() => showTemplateSwitcher = !showTemplateSwitcher}
+        class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors"
+      >
+        {showTemplateSwitcher ? 'Hide Templates' : 'Swap Template'}
+      </button>
+    </div>
   </div>
 
   {#if showTemplateSwitcher}
