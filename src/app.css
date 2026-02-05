@@ -43,3 +43,30 @@
         display: block; /* Show on screens smaller than 768px */
     }
 }
+
+/* Stabilize layout during PDF capture */
+body.pdf-capture {
+    overflow: hidden;
+}
+
+body.pdf-capture #resume-preview,
+body.pdf-preview #resume-preview {
+    width: 210mm;
+    min-height: 297mm;
+    background: #fff;
+    box-shadow: none;
+    border: 0;
+}
+
+body.pdf-capture .resume-preview-header,
+body.pdf-preview .resume-preview-header {
+    display: none;
+}
+
+body.pdf-capture .resume-preview-frame,
+body.pdf-preview .resume-preview-frame {
+    max-height: none;
+    overflow: visible;
+    padding: 0;
+    background: transparent;
+}

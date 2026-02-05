@@ -43,7 +43,7 @@ A web-based resume builder application built with SvelteKit and Tailwind CSS. Th
 
 The application includes the following resume templates:
 
-- **Professional**: A classic and clean layout suitable for most industries.
+- **Professional**: A clean layout suitable for most industries.
 - **Creative**: A more visually appealing template for creative professionals.
 - **Minimal**: A simple and straightforward template for a no-fuss resume.
 - **Executive**: A sophisticated template for senior-level positions.

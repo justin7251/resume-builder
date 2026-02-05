@@ -39,6 +39,7 @@
     "wrangler": "latest"
   },
   "dependencies": {
+    "dompurify": "^3.2.4",
     "svelte-feather-icons": "^4.2.0"
   }
 }
