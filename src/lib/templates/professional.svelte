@@ -1,8 +1,10 @@
 <script lang="ts">
   import type { ResumeData } from '$lib/types';
+  import { sanitizeHtml } from '$lib/sanitize';
   export let resume: ResumeData;
 </script>
 
+<div class="space-y-6 text-sm leading-relaxed">
 <div class="mb-6 border-b pb-6">
   <h1 class="text-3xl font-bold text-blue-800">{resume.personal.name || 'Your Name'}</h1>
   <p class="text-xl text-gray-600 mt-1">{resume.personal.title || 'Professional Title'}</p>
@@ -10,29 +12,29 @@
   <div class="mt-3 flex flex-wrap gap-x-4 gap-y-2 text-sm text-gray-600">
     {#if resume.personal.email}
       <div class="flex items-center">
-        <span class="mr-1">📧</span> {resume.personal.email}
+        {resume.personal.email}
       </div>
     {/if}
     {#if resume.personal.phone}
       <div class="flex items-center">
-        <span class="mr-1">📱</span> {resume.personal.phone}
+        {resume.personal.phone}
       </div>
     {/if}
     {#if resume.personal.location}
       <div class="flex items-center">
-        <span class="mr-1">📍</span> {resume.personal.location}
+        {resume.personal.location}
       </div>
     {/if}
     {#if resume.personal.website}
       <div class="flex items-center">
-        <span class="mr-1">🌐</span> {resume.personal.website}
+        {resume.personal.website}
       </div>
     {/if}
   </div>
 
   {#if resume.personal.summary}
     <div class="mt-4">
-      <div class="text-gray-700 tiptap">{@html resume.personal.summary}</div>
+      <div class="text-gray-700 tiptap">{@html sanitizeHtml(resume.personal.summary)}</div>
     </div>
   {/if}
 </div>
@@ -58,7 +60,7 @@
           </div>
           <p class="text-gray-700">{exp.company || 'Company'}</p>
           {#if exp.description}
-            <div class="mt-1 text-sm text-gray-600 tiptap">{@html exp.description}</div>
+            <div class="mt-1 text-sm text-gray-600 tiptap">{@html sanitizeHtml(exp.description)}</div>
           {/if}
         </div>
       {/if}
@@ -80,7 +82,7 @@
           </div>
           <p class="text-gray-700">{edu.institution || 'Institution'}</p>
           {#if edu.description}
-            <div class="mt-1 text-sm text-gray-600 tiptap">{@html edu.description}</div>
+            <div class="mt-1 text-sm text-gray-600 tiptap">{@html sanitizeHtml(edu.description)}</div>
           {/if}
         </div>
       {/if}
@@ -105,3 +107,6 @@
     </div>
   </div>
 {/if}
+
+</div>
+

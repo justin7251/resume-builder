@@ -111,8 +111,8 @@
 			<h2 class="text-3xl font-bold mb-12">Find Your Perfect Template</h2>
 			<div class="grid grid-cols-2 md:grid-cols-4 gap-8">
 				<img
-					src="/templates/classic.png"
-					alt="Classic Resume Template"
+					src="/templates/executive.png"
+					alt="Executive Resume Template"
 					class="rounded-lg shadow-lg hover:opacity-75 transition-opacity"
 				/>
 				<img

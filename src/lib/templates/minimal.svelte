@@ -1,9 +1,10 @@
 <script lang="ts">
   import type { ResumeData } from '$lib/types';
+  import { sanitizeHtml } from '$lib/sanitize';
   export let resume: ResumeData;
 </script>
 
-<div class="max-w-2xl mx-auto">
+<div class="max-w-2xl mx-auto text-sm leading-relaxed">
   <div class="text-center mb-8">
     <h1 class="text-3xl font-bold">{resume.personal.name || 'Your Name'}</h1>
     <p class="text-lg text-gray-700 mt-1">{resume.personal.title || 'Professional Title'}</p>
@@ -13,20 +14,20 @@
         <span>{resume.personal.email}</span>
       {/if}
       {#if resume.personal.phone}
-        <span>â€¢ {resume.personal.phone}</span>
+        <span>• {resume.personal.phone}</span>
       {/if}
       {#if resume.personal.location}
-        <span>â€¢ {resume.personal.location}</span>
+        <span>• {resume.personal.location}</span>
       {/if}
       {#if resume.personal.website}
-        <span>â€¢ {resume.personal.website}</span>
+        <span>• {resume.personal.website}</span>
       {/if}
     </div>
   </div>
 
   {#if resume.personal.summary}
     <div class="mb-6">
-      <div class="text-gray-700 tiptap">{@html resume.personal.summary}</div>
+      <div class="text-gray-700 tiptap">{@html sanitizeHtml(resume.personal.summary)}</div>
     </div>
   {/if}
 
@@ -46,7 +47,7 @@
             </div>
             <p class="text-gray-700">{exp.company || 'Company'}</p>
             {#if exp.description}
-              <div class="mt-2 text-sm text-gray-600 tiptap">{@html exp.description}</div>
+              <div class="mt-2 text-sm text-gray-600 tiptap">{@html sanitizeHtml(exp.description)}</div>
             {/if}
           </div>
         {/if}
@@ -70,7 +71,7 @@
             </div>
             <p class="text-gray-700">{edu.institution || 'Institution'}</p>
             {#if edu.description}
-              <div class="mt-2 text-sm text-gray-600 tiptap">{@html edu.description}</div>
+              <div class="mt-2 text-sm text-gray-600 tiptap">{@html sanitizeHtml(edu.description)}</div>
             {/if}
           </div>
         {/if}
@@ -100,3 +101,5 @@
         padding-left: 1.5rem;
     }
 </style>
+
+

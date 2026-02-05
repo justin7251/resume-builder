@@ -1,9 +1,10 @@
 <script lang="ts">
   import type { ResumeData } from '$lib/types';
+  import { sanitizeHtml } from '$lib/sanitize';
   export let resume: ResumeData;
 </script>
 
-<div class="border-t-8 border-gray-800">
+<div class="border-t-8 border-gray-800 text-sm leading-relaxed">
   <div class="py-6 border-b border-gray-300">
     <h1 class="text-4xl font-bold text-gray-800">{resume.personal.name || 'Your Name'}</h1>
     <p class="text-xl text-gray-700 mt-2">{resume.personal.title || 'Professional Title'}</p>
@@ -53,16 +54,16 @@
     </div>
 
     <!-- Right Column -->
-    <div class="col-span-3 md:col-span-2">
+    <div class="col-span-3 md:col-span-2 space-y-6">
       {#if resume.personal.summary}
-        <div class="mb-6">
+        <div>
           <h2 class="text-lg font-semibold border-b border-gray-300 pb-2 mb-3">Professional Summary</h2>
-          <div class="text-gray-700 tiptap">{@html resume.personal.summary}</div>
+          <div class="text-gray-700 tiptap">{@html sanitizeHtml(resume.personal.summary)}</div>
         </div>
       {/if}
 
       {#if resume.experience.some(exp => exp.company || exp.position)}
-        <div class="mb-6">
+        <div>
           <h2 class="text-lg font-semibold border-b border-gray-300 pb-2 mb-3">Professional Experience</h2>
           {#each resume.experience as exp}
             {#if exp.company || exp.position}
@@ -75,7 +76,7 @@
                 </div>
                 <p class="text-gray-700 italic">{exp.position || 'Position'}</p>
                 {#if exp.description}
-                  <div class="mt-2 text-sm text-gray-700 tiptap">{@html exp.description}</div>
+                  <div class="mt-2 text-sm text-gray-700 tiptap">{@html sanitizeHtml(exp.description)}</div>
                 {/if}
               </div>
             {/if}
@@ -97,7 +98,7 @@
                 </div>
                 <p class="text-gray-700">{edu.degree || 'Degree'}{edu.field ? ` in ${edu.field}` : ''}</p>
                 {#if edu.description}
-                  <div class="mt-1 text-sm text-gray-600 tiptap">{@html edu.description}</div>
+                  <div class="mt-1 text-sm text-gray-600 tiptap">{@html sanitizeHtml(edu.description)}</div>
                 {/if}
               </div>
             {/if}

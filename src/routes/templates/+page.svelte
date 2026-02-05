@@ -2,12 +2,6 @@
   import { goto } from '$app/navigation';
 
   const templates = [
-    {
-      id: 'classic',
-      name: 'Classic',
-      description: 'A classic, ATS-friendly resume template',
-      image: '/templates/classic.png'
-    },
     { 
       id: 'professional',
       name: 'Professional', 

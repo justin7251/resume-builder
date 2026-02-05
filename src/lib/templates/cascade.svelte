@@ -1,10 +1,11 @@
 <script lang="ts">
   import type { ResumeData } from '$lib/types';
+  import { sanitizeHtml } from '$lib/sanitize';
 
   export let resume: ResumeData;
 </script>
 
-<div class="bg-white text-gray-800 font-sans text-sm resume-template">
+<div class="bg-white text-gray-800 font-sans text-sm resume-template leading-relaxed">
   <div class="flex">
     <!-- Left Column -->
     <div class="w-1/3 bg-gray-800 text-white p-6">
@@ -39,22 +40,22 @@
     </div>
 
     <!-- Right Column -->
-    <div class="w-2/3 p-6">
-      <div class="mb-4">
+    <div class="w-2/3 p-6 space-y-5">
+      <div>
         <h2 class="text-2xl font-bold text-gray-700">Summary</h2>
         <div class="h-px bg-gray-300 mt-1 mb-2"></div>
-        <p class="text-gray-600 tiptap">{@html resume.personal.summary}</p>
+        <p class="text-gray-600 tiptap">{@html sanitizeHtml(resume.personal.summary)}</p>
       </div>
 
-      <div class="mb-4">
+      <div>
         <h2 class="text-2xl font-bold text-gray-700">Experience</h2>
         <div class="h-px bg-gray-300 mt-1 mb-2"></div>
         {#each resume.experience as job}
-          <div class="mb-3">
+          <div class="mb-4">
             <h3 class="job-title">{job.position}</h3>
             <p class="company-name">{job.company}</p>
             <p class="text-xs text-gray-500">{job.startDate} - {job.endDate}</p>
-            <div class="mt-1 text-gray-600 tiptap">{@html job.description}</div>
+            <div class="mt-1 text-gray-600 tiptap">{@html sanitizeHtml(job.description)}</div>
           </div>
         {/each}
       </div>
@@ -63,11 +64,11 @@
         <h2 class="text-2xl font-bold text-gray-700">Education</h2>
         <div class="h-px bg-gray-300 mt-1 mb-2"></div>
         {#each resume.education as edu}
-          <div class="mb-3">
+          <div class="mb-4">
             <h3 class="text-xl font-bold">{edu.degree}</h3>
             <p class="font-semibold text-md text-gray-600">{edu.institution}</p>
             <p class="text-xs text-gray-500">{edu.startDate} - {edu.endDate}</p>
-            <div class="mt-1 text-gray-600 tiptap">{@html edu.description}</div>
+            <div class="mt-1 text-gray-600 tiptap">{@html sanitizeHtml(edu.description)}</div>
           </div>
         {/each}
       </div>

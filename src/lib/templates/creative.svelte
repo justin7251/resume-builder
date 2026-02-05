@@ -1,9 +1,10 @@
 <script lang="ts">
   import type { ResumeData } from '$lib/types';
+  import { sanitizeHtml } from '$lib/sanitize';
   export let resume: ResumeData;
 </script>
 
-<div class="flex flex-col md:flex-row gap-6">
+<div class="flex flex-col md:flex-row gap-8 text-sm leading-relaxed">
   <!-- Sidebar -->
   <div class="md:w-1/3 bg-purple-100 p-6 rounded-lg">
     <div class="mb-6 text-center">
@@ -16,22 +17,22 @@
       <div class="space-y-2 text-sm">
         {#if resume.personal.email}
           <div class="flex items-center">
-            <span class="mr-2 text-purple-500">📧</span> {resume.personal.email}
+            {resume.personal.email}
           </div>
         {/if}
         {#if resume.personal.phone}
           <div class="flex items-center">
-            <span class="mr-2 text-purple-500">📱</span> {resume.personal.phone}
+            {resume.personal.phone}
           </div>
         {/if}
         {#if resume.personal.location}
           <div class="flex items-center">
-            <span class="mr-2 text-purple-500">📍</span> {resume.personal.location}
+            {resume.personal.location}
           </div>
         {/if}
         {#if resume.personal.website}
           <div class="flex items-center">
-            <span class="mr-2 text-purple-500">🌐</span> {resume.personal.website}
+            {resume.personal.website}
           </div>
         {/if}
       </div>
@@ -60,16 +61,16 @@
   </div>
 
   <!-- Main Content -->
-  <div class="md:w-2/3">
+  <div class="md:w-2/3 space-y-6">
     {#if resume.personal.summary}
-      <div class="mb-6">
+      <div>
         <h2 class="text-xl font-semibold text-purple-800 mb-2 border-b border-purple-200 pb-1">About Me</h2>
-        <div class="text-gray-700 tiptap">{@html resume.personal.summary}</div>
+        <div class="text-gray-700 tiptap">{@html sanitizeHtml(resume.personal.summary)}</div>
       </div>
     {/if}
 
     {#if resume.experience.some(exp => exp.company || exp.position)}
-      <div class="mb-6">
+      <div>
         <h2 class="text-xl font-semibold text-purple-800 mb-3 border-b border-purple-200 pb-1">Experience</h2>
         {#each resume.experience as exp}
           {#if exp.company || exp.position}
@@ -83,7 +84,7 @@
               </div>
               <p class="text-gray-700">{exp.company || 'Company'}</p>
               {#if exp.description}
-                <div class="mt-1 text-sm text-gray-600 tiptap">{@html exp.description}</div>
+                <div class="mt-1 text-sm text-gray-600 tiptap">{@html sanitizeHtml(exp.description)}</div>
               {/if}
             </div>
           {/if}
@@ -106,7 +107,7 @@
               </div>
               <p class="text-gray-700">{edu.institution || 'Institution'}</p>
               {#if edu.description}
-                <div class="mt-1 text-sm text-gray-600 tiptap">{@html edu.description}</div>
+                <div class="mt-1 text-sm text-gray-600 tiptap">{@html sanitizeHtml(edu.description)}</div>
               {/if}
             </div>
           {/if}
@@ -122,3 +123,4 @@
         padding-left: 1.5rem;
     }
 </style>
+
