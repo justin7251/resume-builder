@@ -2,16 +2,24 @@
   import type { ResumeData } from '$lib/types';
   import { onMount, afterUpdate } from 'svelte';
   import type { ComponentType } from 'svelte';
+  import ProfessionalTemplate from '../templates/professional.svelte';
 
   export let resumeData: ResumeData;
   export let templateId: string = 'professional';
 
   let resumeContentElement: HTMLElement;
   let component: ComponentType | null = null;
+  let templateError = false;
 
   $: import(`../templates/${templateId}.svelte`)
-    .then(res => component = res.default)
-    .catch(() => component = null);
+    .then(res => {
+      component = res.default;
+      templateError = false;
+    })
+    .catch(() => {
+      component = ProfessionalTemplate;
+      templateError = true;
+    });
   let isTwoPage = false;
 
   const checkHeight = () => {
@@ -27,13 +35,16 @@
   afterUpdate(checkHeight);
 </script>
 
-<div class="bg-white rounded-lg shadow">
-  <div class="p-4 border-b">
+<div class="bg-white rounded-lg shadow resume-preview-panel">
+  <div class="p-4 border-b resume-preview-header">
     <h2 class="text-xl font-semibold">Preview</h2>
     <p class="text-sm text-gray-500">Template: {templateId}</p>
+    {#if templateError}
+      <p class="text-xs text-red-600 mt-1">Template not found. Showing Professional.</p>
+    {/if}
   </div>
   
-  <div class="overflow-auto overflow-x-hidden max-h-[800px] p-4 bg-gray-100">
+  <div class="overflow-auto overflow-x-hidden max-h-[800px] p-4 bg-gray-100 resume-preview-frame">
     <div 
       id="resume-preview" 
       class="border p-8 bg-white shadow-lg mx-auto"

@@ -2,6 +2,8 @@
   import { createEventDispatcher } from 'svelte';
   import type { ResumeData } from '$lib/types';
   import TiptapEditor from './TiptapEditor.svelte';
+  import AIDraftForm from './AIDraftForm.svelte';
+  import AICompareForm from './AICompareForm.svelte';
 
   export let resumeData: ResumeData;
 
@@ -47,6 +49,21 @@
   
   function handleChange() {
     dispatch('update', resumeData);
+  }
+
+  function escapeHtml(value: string) {
+    return value
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  function textToHtml(value: string) {
+    const escaped = escapeHtml(value.trim());
+    const paragraphs = escaped.split(/\n{2,}/).map(p => p.replace(/\n/g, '<br />'));
+    return `<p>${paragraphs.join('</p><p>')}</p>`;
   }
 
   function saveResume() {
@@ -164,6 +181,24 @@
         <div>
           <label for="summary" class="block mb-1 font-medium">Professional Summary</label>
           <TiptapEditor bind:value={resumeData.personal.summary} on:change={handleChange} />
+          <AIDraftForm
+            label="AI Draft Summary"
+            applyLabel="Use This Summary"
+            on:apply={(event) => {
+              resumeData.personal.summary = textToHtml(event.detail);
+              handleChange();
+            }}
+          />
+          <AICompareForm
+            label="AI Compare Summary"
+            applyLabel="Use AI Summary"
+            target="summary"
+            currentHtml={resumeData.personal.summary}
+            on:apply={(event) => {
+              resumeData.personal.summary = textToHtml(event.detail);
+              handleChange();
+            }}
+          />
         </div>
       </div>
     {/if}
@@ -250,6 +285,24 @@
             <div>
               <label for="exp-description-{i}" class="block mb-1 font-medium">Description</label>
               <TiptapEditor bind:value={exp.description} on:change={handleChange} />
+              <AIDraftForm
+                label="AI Draft Experience"
+                applyLabel="Use This Description"
+                on:apply={(event) => {
+                  resumeData.experience[i].description = textToHtml(event.detail);
+                  handleChange();
+                }}
+              />
+              <AICompareForm
+                label="AI Compare Experience"
+                applyLabel="Use AI Description"
+                target="experience"
+                currentHtml={resumeData.experience[i].description}
+                on:apply={(event) => {
+                  resumeData.experience[i].description = textToHtml(event.detail);
+                  handleChange();
+                }}
+              />
             </div>
           </div>
         {/each}
