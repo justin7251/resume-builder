@@ -2,7 +2,6 @@
   import { createEventDispatcher } from 'svelte';
   import type { ResumeData } from '$lib/types';
   import TiptapEditor from './TiptapEditor.svelte';
-  import AIDraftForm from './AIDraftForm.svelte';
   import AICompareForm from './AICompareForm.svelte';
 
   export let resumeData: ResumeData;
@@ -75,26 +74,26 @@
   }
 </script>
 
-<div class="bg-white rounded-lg shadow p-6">
+<div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
   <div class="mb-6">
-    <div class="flex space-x-4 mb-4 overflow-x-auto pb-2">
+    <div class="flex space-x-3 mb-6 overflow-x-auto pb-2">
       <button 
-        class={`px-4 py-2 rounded ${activeSection === 'personal' ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
+        class={`px-4 py-2 rounded-full text-sm font-semibold ${activeSection === 'personal' ? 'bg-blue-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
         on:click={() => activeSection = 'personal'}>
         Personal Info
       </button>
       <button 
-        class={`px-4 py-2 rounded ${activeSection === 'experience' ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
+        class={`px-4 py-2 rounded-full text-sm font-semibold ${activeSection === 'experience' ? 'bg-blue-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
         on:click={() => activeSection = 'experience'}>
         Experience
       </button>
       <button 
-        class={`px-4 py-2 rounded ${activeSection === 'education' ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
+        class={`px-4 py-2 rounded-full text-sm font-semibold ${activeSection === 'education' ? 'bg-blue-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
         on:click={() => activeSection = 'education'}>
         Education
       </button>
       <button 
-        class={`px-4 py-2 rounded ${activeSection === 'skills' ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
+        class={`px-4 py-2 rounded-full text-sm font-semibold ${activeSection === 'skills' ? 'bg-blue-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
         on:click={() => activeSection = 'skills'}>
         Skills
       </button>
@@ -102,27 +101,27 @@
 
     <!-- Personal Information Form -->
     {#if activeSection === 'personal'}
-      <div class="space-y-4">
+      <div class="space-y-5">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label for="fullName" class="block mb-1 font-medium">Full Name</label>
+            <label for="fullName" class="block mb-1 text-xs font-semibold text-slate-500 uppercase tracking-wider">Full Name</label>
             <input
               id="fullName"
               type="text"
               bind:value={resumeData.personal.name}
               on:input={handleChange}
-              class="w-full border rounded px-3 py-2"
+              class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm bg-slate-50"
               placeholder="John Doe"
             />
           </div>
           <div>
-            <label for="title" class="block mb-1 font-medium">Professional Title</label>
+            <label for="title" class="block mb-1 text-xs font-semibold text-slate-500 uppercase tracking-wider">Professional Title</label>
             <input
               id="title"
               type="text"
               bind:value={resumeData.personal.title}
               on:input={handleChange}
-              class="w-full border rounded px-3 py-2"
+              class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm bg-slate-50"
               placeholder="Software Developer"
             />
           </div>
@@ -130,24 +129,24 @@
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label for="email" class="block mb-1 font-medium">Email</label>
+            <label for="email" class="block mb-1 text-xs font-semibold text-slate-500 uppercase tracking-wider">Email</label>
             <input
               id="email"
               type="email"
               bind:value={resumeData.personal.email}
               on:input={handleChange}
-              class="w-full border rounded px-3 py-2"
+              class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm bg-slate-50"
               placeholder="john.doe@example.com"
             />
           </div>
           <div>
-            <label for="phone" class="block mb-1 font-medium">Phone</label>
+            <label for="phone" class="block mb-1 text-xs font-semibold text-slate-500 uppercase tracking-wider">Phone</label>
             <input
               id="phone"
               type="tel"
               bind:value={resumeData.personal.phone}
               on:input={handleChange}
-              class="w-full border rounded px-3 py-2"
+              class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm bg-slate-50"
               placeholder="+1 (123) 456-7890"
             />
           </div>
@@ -155,40 +154,32 @@
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label for="location" class="block mb-1 font-medium">Location</label>
+            <label for="location" class="block mb-1 text-xs font-semibold text-slate-500 uppercase tracking-wider">Location</label>
             <input
               id="location"
               type="text"
               bind:value={resumeData.personal.location}
               on:input={handleChange}
-              class="w-full border rounded px-3 py-2"
+              class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm bg-slate-50"
               placeholder="New York, NY"
             />
           </div>
           <div>
-            <label for="website" class="block mb-1 font-medium">Website/Portfolio</label>
+            <label for="website" class="block mb-1 text-xs font-semibold text-slate-500 uppercase tracking-wider">Website/Portfolio</label>
             <input
               id="website"
               type="url"
               bind:value={resumeData.personal.website}
               on:input={handleChange}
-              class="w-full border rounded px-3 py-2"
+              class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm bg-slate-50"
               placeholder="https://johndoe.com"
             />
           </div>
         </div>
         
         <div>
-          <label for="summary" class="block mb-1 font-medium">Professional Summary</label>
+          <label for="summary" class="block mb-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">Professional Summary</label>
           <TiptapEditor bind:value={resumeData.personal.summary} on:change={handleChange} />
-          <AIDraftForm
-            label="AI Draft Summary"
-            applyLabel="Use This Summary"
-            on:apply={(event) => {
-              resumeData.personal.summary = textToHtml(event.detail);
-              handleChange();
-            }}
-          />
           <AICompareForm
             label="AI Compare Summary"
             applyLabel="Use AI Summary"
@@ -207,13 +198,13 @@
     {#if activeSection === 'experience'}
       <div class="space-y-6">
         {#each resumeData.experience as exp, i}
-          <div class="border rounded p-4">
-            <div class="flex justify-between mb-2">
-              <h3 class="text-lg font-medium">Experience {i + 1}</h3>
+          <div class="border border-slate-200 rounded-xl p-4 bg-slate-50">
+            <div class="flex justify-between mb-3">
+              <h3 class="text-base font-semibold">Experience {i + 1}</h3>
               {#if resumeData.experience.length > 1}
                 <button
                   on:click={() => removeExperience(i)}
-                  class="text-red-500 hover:text-red-700"
+                  class="text-red-500 text-sm hover:text-red-700"
                 >
                   Remove
                 </button>
@@ -222,24 +213,24 @@
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
               <div>
-                <label for="company-{i}" class="block mb-1 font-medium">Company</label>
+                <label for="company-{i}" class="block mb-1 text-xs font-semibold text-slate-500 uppercase tracking-wider">Company</label>
                 <input
                   id="company-{i}"
                   type="text"
                   bind:value={exp.company}
                   on:input={handleChange}
-                  class="w-full border rounded px-3 py-2"
+                  class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm bg-white"
                   placeholder="Company Name"
                 />
               </div>
               <div>
-                <label for="position-{i}" class="block mb-1 font-medium">Position</label>
+                <label for="position-{i}" class="block mb-1 text-xs font-semibold text-slate-500 uppercase tracking-wider">Position</label>
                 <input
                   id="position-{i}"
                   type="text"
                   bind:value={exp.position}
                   on:input={handleChange}
-                  class="w-full border rounded px-3 py-2"
+                  class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm bg-white"
                   placeholder="Job Title"
                 />
               </div>
@@ -247,24 +238,24 @@
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-3">
               <div>
-                <label for="exp-startDate-{i}" class="block mb-1 font-medium">Start Date</label>
+                <label for="exp-startDate-{i}" class="block mb-1 text-xs font-semibold text-slate-500 uppercase tracking-wider">Start Date</label>
                 <input
                   id="exp-startDate-{i}"
                   type="text"
                   bind:value={exp.startDate}
                   on:input={handleChange}
-                  class="w-full border rounded px-3 py-2"
+                  class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm bg-white"
                   placeholder="Jan 2020"
                 />
               </div>
               <div>
-                <label for="exp-endDate-{i}" class="block mb-1 font-medium">End Date</label>
+                <label for="exp-endDate-{i}" class="block mb-1 text-xs font-semibold text-slate-500 uppercase tracking-wider">End Date</label>
                 <input
                   id="exp-endDate-{i}"
                   type="text"
                   bind:value={exp.endDate}
                   on:input={handleChange}
-                  class="w-full border rounded px-3 py-2"
+                  class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm bg-white"
                   placeholder="Present"
                   disabled={exp.current}
                 />
@@ -275,24 +266,16 @@
                     type="checkbox"
                     bind:checked={exp.current}
                     on:change={handleChange}
-                    class="form-checkbox h-5 w-5 text-blue-600"
+                    class="form-checkbox h-4 w-4 text-blue-600"
                   />
-                  <span class="ml-2">Current Position</span>
+                  <span class="ml-2 text-sm text-slate-600">Current Position</span>
                 </label>
               </div>
             </div>
             
             <div>
-              <label for="exp-description-{i}" class="block mb-1 font-medium">Description</label>
+              <label for="exp-description-{i}" class="block mb-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">Description</label>
               <TiptapEditor bind:value={exp.description} on:change={handleChange} />
-              <AIDraftForm
-                label="AI Draft Experience"
-                applyLabel="Use This Description"
-                on:apply={(event) => {
-                  resumeData.experience[i].description = textToHtml(event.detail);
-                  handleChange();
-                }}
-              />
               <AICompareForm
                 label="AI Compare Experience"
                 applyLabel="Use AI Description"
@@ -309,7 +292,7 @@
         
         <button
           on:click={addExperience}
-          class="w-full bg-gray-200 hover:bg-gray-300 py-2 rounded"
+          class="w-full border border-dashed border-slate-300 text-slate-500 py-2 rounded-lg hover:bg-slate-50"
         >
           + Add Experience
         </button>
@@ -320,13 +303,13 @@
     {#if activeSection === 'education'}
       <div class="space-y-6">
         {#each resumeData.education as edu, i}
-          <div class="border rounded p-4">
-            <div class="flex justify-between mb-2">
-              <h3 class="text-lg font-medium">Education {i + 1}</h3>
+          <div class="border border-slate-200 rounded-xl p-4 bg-slate-50">
+            <div class="flex justify-between mb-3">
+              <h3 class="text-base font-semibold">Education {i + 1}</h3>
               {#if resumeData.education.length > 1}
                 <button
                   on:click={() => removeEducation(i)}
-                  class="text-red-500 hover:text-red-700"
+                  class="text-red-500 text-sm hover:text-red-700"
                 >
                   Remove
                 </button>
@@ -335,24 +318,24 @@
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
               <div>
-                <label for="institution-{i}" class="block mb-1 font-medium">Institution</label>
+                <label for="institution-{i}" class="block mb-1 text-xs font-semibold text-slate-500 uppercase tracking-wider">Institution</label>
                 <input
                   id="institution-{i}"
                   type="text"
                   bind:value={edu.institution}
                   on:input={handleChange}
-                  class="w-full border rounded px-3 py-2"
+                  class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm bg-white"
                   placeholder="University Name"
                 />
               </div>
               <div>
-                <label for="degree-{i}" class="block mb-1 font-medium">Degree</label>
+                <label for="degree-{i}" class="block mb-1 text-xs font-semibold text-slate-500 uppercase tracking-wider">Degree</label>
                 <input
                   id="degree-{i}"
                   type="text"
                   bind:value={edu.degree}
                   on:input={handleChange}
-                  class="w-full border rounded px-3 py-2"
+                  class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm bg-white"
                   placeholder="Bachelor of Science"
                 />
               </div>
@@ -360,42 +343,42 @@
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-3">
               <div>
-                <label for="edu-field-{i}" class="block mb-1 font-medium">Field of Study</label>
+                <label for="edu-field-{i}" class="block mb-1 text-xs font-semibold text-slate-500 uppercase tracking-wider">Field of Study</label>
                 <input
                   id="edu-field-{i}"
                   type="text"
                   bind:value={edu.field}
                   on:input={handleChange}
-                  class="w-full border rounded px-3 py-2"
+                  class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm bg-white"
                   placeholder="Computer Science"
                 />
               </div>
               <div>
-                <label for="edu-startDate-{i}" class="block mb-1 font-medium">Start Date</label>
+                <label for="edu-startDate-{i}" class="block mb-1 text-xs font-semibold text-slate-500 uppercase tracking-wider">Start Date</label>
                 <input
                   id="edu-startDate-{i}"
                   type="text"
                   bind:value={edu.startDate}
                   on:input={handleChange}
-                  class="w-full border rounded px-3 py-2"
+                  class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm bg-white"
                   placeholder="Sep 2016"
                 />
               </div>
               <div>
-                <label for="edu-endDate-{i}" class="block mb-1 font-medium">End Date</label>
+                <label for="edu-endDate-{i}" class="block mb-1 text-xs font-semibold text-slate-500 uppercase tracking-wider">End Date</label>
                 <input
                   id="edu-endDate-{i}"
                   type="text"
                   bind:value={edu.endDate}
                   on:input={handleChange}
-                  class="w-full border rounded px-3 py-2"
+                  class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm bg-white"
                   placeholder="Jun 2020"
                 />
               </div>
             </div>
             
             <div>
-              <label for="edu-description-{i}" class="block mb-1 font-medium">Description</label>
+              <label for="edu-description-{i}" class="block mb-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">Description</label>
               <TiptapEditor bind:value={edu.description} on:change={handleChange} />
             </div>
           </div>
@@ -403,7 +386,7 @@
         
         <button
           on:click={addEducation}
-          class="w-full bg-gray-200 hover:bg-gray-300 py-2 rounded"
+          class="w-full border border-dashed border-slate-300 text-slate-500 py-2 rounded-lg hover:bg-slate-50"
         >
           + Add Education
         </button>
@@ -414,13 +397,13 @@
     {#if activeSection === 'skills'}
       <div class="space-y-6">
         {#each resumeData.skills as skill, i}
-          <div class="border rounded p-4">
-            <div class="flex justify-between mb-2">
-              <h3 class="text-lg font-medium">Skill {i + 1}</h3>
+          <div class="border border-slate-200 rounded-xl p-4 bg-slate-50">
+            <div class="flex justify-between mb-3">
+              <h3 class="text-base font-semibold">Skill {i + 1}</h3>
               {#if resumeData.skills.length > 1}
                 <button
                   on:click={() => removeSkill(i)}
-                  class="text-red-500 hover:text-red-700"
+                  class="text-red-500 text-sm hover:text-red-700"
                 >
                   Remove
                 </button>
@@ -428,19 +411,19 @@
             </div>
             
             <div class="mb-3">
-              <label for="skill-name-{i}" class="block mb-1 font-medium">Skill Name</label>
+              <label for="skill-name-{i}" class="block mb-1 text-xs font-semibold text-slate-500 uppercase tracking-wider">Skill Name</label>
               <input
                 id="skill-name-{i}"
                 type="text"
                 bind:value={skill.name}
                 on:input={handleChange}
-                class="w-full border rounded px-3 py-2"
+                class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm bg-white"
                 placeholder="JavaScript"
               />
             </div>
             
             <div>
-              <label for="skill-level-{i}" class="block mb-1 font-medium">Proficiency (1-10)</label>
+              <label for="skill-level-{i}" class="block mb-1 text-xs font-semibold text-slate-500 uppercase tracking-wider">Proficiency (1-10)</label>
               <input
                 id="skill-level-{i}"
                 type="range"
@@ -451,9 +434,9 @@
                 class="w-full"
               />
               <div class="flex justify-between text-sm">
-                <span>Beginner</span>
-                <span>Intermediate</span>
-                <span>Expert</span>
+                <span class="text-slate-500">Beginner</span>
+                <span class="text-slate-500">Intermediate</span>
+                <span class="text-slate-500">Expert</span>
               </div>
             </div>
           </div>
@@ -461,26 +444,11 @@
         
         <button
           on:click={addSkill}
-          class="w-full bg-gray-200 hover:bg-gray-300 py-2 rounded"
+          class="w-full border border-dashed border-slate-300 text-slate-500 py-2 rounded-lg hover:bg-slate-50"
         >
           + Add Skill
         </button>
       </div>
     {/if}
-  </div>
-  
-  <div class="flex justify-between mt-6">
-    <button 
-      on:click={saveResume}
-      class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
-    >
-      Save Resume
-    </button>
-    <button 
-      on:click={exportToPdf}
-      class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-    >
-      Export to PDF
-    </button>
   </div>
 </div>

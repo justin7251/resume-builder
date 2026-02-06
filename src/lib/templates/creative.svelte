@@ -4,123 +4,95 @@
   export let resume: ResumeData;
 </script>
 
-<div class="flex flex-col md:flex-row gap-8 text-sm leading-relaxed">
-  <!-- Sidebar -->
-  <div class="md:w-1/3 bg-purple-100 p-6 rounded-lg">
-    <div class="mb-6 text-center">
-      <h1 class="text-2xl font-bold text-purple-800">{resume.personal.name || 'Your Name'}</h1>
-      <p class="text-lg text-purple-600 mt-1">{resume.personal.title || 'Professional Title'}</p>
-    </div>
-
-    <div class="mb-6">
-      <h2 class="text-lg font-semibold text-purple-700 mb-2 border-b border-purple-300 pb-1">Contact</h2>
-      <div class="space-y-2 text-sm">
-        {#if resume.personal.email}
-          <div class="flex items-center">
-            {resume.personal.email}
-          </div>
-        {/if}
-        {#if resume.personal.phone}
-          <div class="flex items-center">
-            {resume.personal.phone}
-          </div>
-        {/if}
-        {#if resume.personal.location}
-          <div class="flex items-center">
-            {resume.personal.location}
-          </div>
-        {/if}
-        {#if resume.personal.website}
-          <div class="flex items-center">
-            {resume.personal.website}
-          </div>
-        {/if}
+<div class="text-sm leading-relaxed text-slate-800">
+  <div class="flex flex-col md:flex-row gap-8">
+    <aside class="md:w-1/3 bg-gradient-to-b from-purple-600 to-indigo-600 text-white rounded-2xl p-6">
+      <div class="mb-6">
+        <h1 class="text-2xl font-semibold">{resume.personal.name || 'Your Name'}</h1>
+        <p class="text-sm text-indigo-100 mt-1 uppercase tracking-widest">{resume.personal.title || 'Professional Title'}</p>
       </div>
-    </div>
+      <div class="space-y-2 text-xs">
+        {#if resume.personal.email}<div>{resume.personal.email}</div>{/if}
+        {#if resume.personal.phone}<div>{resume.personal.phone}</div>{/if}
+        {#if resume.personal.location}<div>{resume.personal.location}</div>{/if}
+        {#if resume.personal.website}<div>{resume.personal.website}</div>{/if}
+      </div>
+      {#if resume.skills.some(skill => skill.name)}
+        <div class="mt-6">
+          <h2 class="text-xs font-semibold uppercase tracking-widest text-indigo-100 mb-3">Skills</h2>
+          <div class="space-y-2">
+            {#each resume.skills as skill}
+              {#if skill.name}
+                <div>
+                  <div class="flex justify-between text-xs">
+                    <span>{skill.name}</span>
+                    <span>{skill.level}/10</span>
+                  </div>
+                  <div class="w-full bg-white/20 rounded-full h-1.5 mt-1">
+                    <div class="bg-white h-1.5 rounded-full" style="width: {skill.level * 10}%"></div>
+                  </div>
+                </div>
+              {/if}
+            {/each}
+          </div>
+        </div>
+      {/if}
+    </aside>
 
-    {#if resume.skills.some(skill => skill.name)}
-      <div>
-        <h2 class="text-lg font-semibold text-purple-700 mb-2 border-b border-purple-300 pb-1">Skills</h2>
-        <div class="space-y-2">
-          {#each resume.skills as skill}
-            {#if skill.name}
-              <div>
-                <div class="flex justify-between text-sm">
-                  <span>{skill.name}</span>
-                  <span>{skill.level}/10</span>
+    <section class="md:w-2/3 space-y-6">
+      {#if resume.personal.summary}
+        <div class="bg-white border border-slate-200 rounded-xl p-4">
+          <h2 class="text-xs font-semibold uppercase tracking-widest text-purple-600 mb-2">About</h2>
+          <div class="text-slate-700 tiptap">{@html sanitizeHtml(resume.personal.summary)}</div>
+        </div>
+      {/if}
+
+      {#if resume.experience.some(exp => exp.company || exp.position)}
+        <div>
+          <h2 class="text-xs font-semibold uppercase tracking-widest text-purple-600 mb-3">Experience</h2>
+          {#each resume.experience as exp}
+            {#if exp.company || exp.position}
+              <div class="mb-4 pl-4 border-l-2 border-purple-200">
+                <div class="flex justify-between text-xs text-slate-500">
+                  <span>{exp.startDate || 'Start'} - {exp.current ? 'Present' : (exp.endDate || 'End')}</span>
+                  <span>{exp.company || 'Company'}</span>
                 </div>
-                <div class="w-full bg-purple-200 rounded-full h-2 mt-1">
-                  <div class="bg-purple-600 h-2 rounded-full" style="width: {skill.level * 10}%"></div>
-                </div>
+                <h3 class="font-semibold text-slate-900">{exp.position || 'Position'}</h3>
+                {#if exp.description}
+                  <div class="mt-2 text-xs text-slate-600 tiptap">{@html sanitizeHtml(exp.description)}</div>
+                {/if}
               </div>
             {/if}
           {/each}
         </div>
-      </div>
-    {/if}
-  </div>
+      {/if}
 
-  <!-- Main Content -->
-  <div class="md:w-2/3 space-y-6">
-    {#if resume.personal.summary}
-      <div>
-        <h2 class="text-xl font-semibold text-purple-800 mb-2 border-b border-purple-200 pb-1">About Me</h2>
-        <div class="text-gray-700 tiptap">{@html sanitizeHtml(resume.personal.summary)}</div>
-      </div>
-    {/if}
-
-    {#if resume.experience.some(exp => exp.company || exp.position)}
-      <div>
-        <h2 class="text-xl font-semibold text-purple-800 mb-3 border-b border-purple-200 pb-1">Experience</h2>
-        {#each resume.experience as exp}
-          {#if exp.company || exp.position}
-            <div class="mb-4 relative pl-6">
-              <div class="absolute left-0 top-2 w-3 h-3 rounded-full bg-purple-400"></div>
-              <div class="flex flex-wrap justify-between">
-                <h3 class="font-semibold text-purple-700">{exp.position || 'Position'}</h3>
-                <span class="text-sm text-purple-600">
-                  {exp.startDate || 'Start Date'} - {exp.current ? 'Present' : (exp.endDate || 'End Date')}
-                </span>
+      {#if resume.education.some(edu => edu.institution || edu.degree)}
+        <div>
+          <h2 class="text-xs font-semibold uppercase tracking-widest text-purple-600 mb-3">Education</h2>
+          {#each resume.education as edu}
+            {#if edu.institution || edu.degree}
+              <div class="mb-4 pl-4 border-l-2 border-purple-200">
+                <div class="flex justify-between text-xs text-slate-500">
+                  <span>{edu.startDate || 'Start'} - {edu.endDate || 'End'}</span>
+                  <span>{edu.institution || 'Institution'}</span>
+                </div>
+                <h3 class="font-semibold text-slate-900">{edu.degree || 'Degree'}{edu.field ? ` in ${edu.field}` : ''}</h3>
+                {#if edu.description}
+                  <div class="mt-2 text-xs text-slate-600 tiptap">{@html sanitizeHtml(edu.description)}</div>
+                {/if}
               </div>
-              <p class="text-gray-700">{exp.company || 'Company'}</p>
-              {#if exp.description}
-                <div class="mt-1 text-sm text-gray-600 tiptap">{@html sanitizeHtml(exp.description)}</div>
-              {/if}
-            </div>
-          {/if}
-        {/each}
-      </div>
-    {/if}
-
-    {#if resume.education.some(edu => edu.institution || edu.degree)}
-      <div>
-        <h2 class="text-xl font-semibold text-purple-800 mb-3 border-b border-purple-200 pb-1">Education</h2>
-        {#each resume.education as edu}
-          {#if edu.institution || edu.degree}
-            <div class="mb-4 relative pl-6">
-              <div class="absolute left-0 top-2 w-3 h-3 rounded-full bg-purple-400"></div>
-              <div class="flex flex-wrap justify-between">
-                <h3 class="font-semibold text-purple-700">{edu.degree || 'Degree'}{edu.field ? ` in ${edu.field}` : ''}</h3>
-                <span class="text-sm text-purple-600">
-                  {edu.startDate || 'Start Date'} - {edu.endDate || 'End Date'}
-                </span>
-              </div>
-              <p class="text-gray-700">{edu.institution || 'Institution'}</p>
-              {#if edu.description}
-                <div class="mt-1 text-sm text-gray-600 tiptap">{@html sanitizeHtml(edu.description)}</div>
-              {/if}
-            </div>
-          {/if}
-        {/each}
-      </div>
-    {/if}
+            {/if}
+          {/each}
+        </div>
+      {/if}
+    </section>
   </div>
 </div>
 
 <style>
-    .tiptap ul {
-        list-style-type: disc;
-        padding-left: 1.5rem;
-    }
+  .tiptap ul {
+    list-style-type: disc;
+    padding-left: 1.5rem;
+  }
 </style>
-

@@ -4,39 +4,91 @@
   export let resume: ResumeData;
 </script>
 
-<div class="space-y-6 text-sm leading-relaxed">
-<div class="mb-6 border-b pb-6">
-  <h1 class="text-3xl font-bold text-blue-800">{resume.personal.name || 'Your Name'}</h1>
-  <p class="text-xl text-gray-600 mt-1">{resume.personal.title || 'Professional Title'}</p>
-
-  <div class="mt-3 flex flex-wrap gap-x-4 gap-y-2 text-sm text-gray-600">
-    {#if resume.personal.email}
-      <div class="flex items-center">
-        {resume.personal.email}
+<div class="text-sm leading-relaxed text-slate-800">
+  <div class="border-b-2 border-slate-200 pb-6 mb-6">
+    <div class="flex flex-wrap items-end justify-between gap-4">
+      <div>
+        <h1 class="text-3xl font-bold text-slate-900">{resume.personal.name || 'Your Name'}</h1>
+        <p class="text-lg text-slate-500 mt-1">{resume.personal.title || 'Professional Title'}</p>
       </div>
-    {/if}
-    {#if resume.personal.phone}
-      <div class="flex items-center">
-        {resume.personal.phone}
+      <div class="text-xs text-slate-500 space-y-1 text-right">
+        {#if resume.personal.email}<div>{resume.personal.email}</div>{/if}
+        {#if resume.personal.phone}<div>{resume.personal.phone}</div>{/if}
+        {#if resume.personal.location}<div>{resume.personal.location}</div>{/if}
+        {#if resume.personal.website}<div>{resume.personal.website}</div>{/if}
       </div>
-    {/if}
-    {#if resume.personal.location}
-      <div class="flex items-center">
-        {resume.personal.location}
-      </div>
-    {/if}
-    {#if resume.personal.website}
-      <div class="flex items-center">
-        {resume.personal.website}
+    </div>
+    {#if resume.personal.summary}
+      <div class="mt-5 bg-slate-50 border border-slate-200 rounded-lg p-4">
+        <div class="text-slate-700 tiptap">{@html sanitizeHtml(resume.personal.summary)}</div>
       </div>
     {/if}
   </div>
 
-  {#if resume.personal.summary}
-    <div class="mt-4">
-      <div class="text-gray-700 tiptap">{@html sanitizeHtml(resume.personal.summary)}</div>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="md:col-span-2 space-y-6">
+      {#if resume.experience.some(exp => exp.company || exp.position)}
+        <section>
+          <h2 class="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-3">Experience</h2>
+          {#each resume.experience as exp}
+            {#if exp.company || exp.position}
+              <div class="mb-4">
+                <div class="flex justify-between">
+                  <h3 class="font-semibold text-slate-900">{exp.position || 'Position'}</h3>
+                  <span class="text-xs text-slate-500">
+                    {exp.startDate || 'Start Date'} - {exp.current ? 'Present' : (exp.endDate || 'End Date')}
+                  </span>
+                </div>
+                <p class="text-slate-600">{exp.company || 'Company'}</p>
+                {#if exp.description}
+                  <div class="mt-1 text-xs text-slate-600 tiptap">{@html sanitizeHtml(exp.description)}</div>
+                {/if}
+              </div>
+            {/if}
+          {/each}
+        </section>
+      {/if}
+
+      {#if resume.education.some(edu => edu.institution || edu.degree)}
+        <section>
+          <h2 class="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-3">Education</h2>
+          {#each resume.education as edu}
+            {#if edu.institution || edu.degree}
+              <div class="mb-4">
+                <div class="flex justify-between">
+                  <h3 class="font-semibold text-slate-900">{edu.degree || 'Degree'}{edu.field ? ` in ${edu.field}` : ''}</h3>
+                  <span class="text-xs text-slate-500">
+                    {edu.startDate || 'Start Date'} - {edu.endDate || 'End Date'}
+                  </span>
+                </div>
+                <p class="text-slate-600">{edu.institution || 'Institution'}</p>
+                {#if edu.description}
+                  <div class="mt-1 text-xs text-slate-600 tiptap">{@html sanitizeHtml(edu.description)}</div>
+                {/if}
+              </div>
+            {/if}
+          {/each}
+        </section>
+      {/if}
     </div>
-  {/if}
+
+    <aside class="space-y-4">
+      {#if resume.skills.some(skill => skill.name)}
+        <section>
+          <h2 class="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-3">Skills</h2>
+          <div class="flex flex-wrap gap-2">
+            {#each resume.skills as skill}
+              {#if skill.name}
+                <span class="bg-slate-100 border border-slate-200 rounded-full px-3 py-1 text-xs font-semibold text-slate-700">
+                  {skill.name}
+                </span>
+              {/if}
+            {/each}
+          </div>
+        </section>
+      {/if}
+    </aside>
+  </div>
 </div>
 
 <style>
@@ -45,68 +97,3 @@
     padding-left: 1.5rem;
   }
 </style>
-
-{#if resume.experience.some(exp => exp.company || exp.position)}
-  <div class="mb-6">
-    <h2 class="text-xl font-bold text-blue-800 mb-3">Experience</h2>
-    {#each resume.experience as exp}
-      {#if exp.company || exp.position}
-        <div class="mb-4">
-          <div class="flex justify-between">
-            <h3 class="font-semibold">{exp.position || 'Position'}</h3>
-            <span class="text-sm text-gray-600">
-              {exp.startDate || 'Start Date'} - {exp.current ? 'Present' : (exp.endDate || 'End Date')}
-            </span>
-          </div>
-          <p class="text-gray-700">{exp.company || 'Company'}</p>
-          {#if exp.description}
-            <div class="mt-1 text-sm text-gray-600 tiptap">{@html sanitizeHtml(exp.description)}</div>
-          {/if}
-        </div>
-      {/if}
-    {/each}
-  </div>
-{/if}
-
-{#if resume.education.some(edu => edu.institution || edu.degree)}
-  <div class="mb-6">
-    <h2 class="text-xl font-bold text-blue-800 mb-3">Education</h2>
-    {#each resume.education as edu}
-      {#if edu.institution || edu.degree}
-        <div class="mb-4">
-          <div class="flex justify-between">
-            <h3 class="font-semibold">{edu.degree || 'Degree'}{edu.field ? ` in ${edu.field}` : ''}</h3>
-            <span class="text-sm text-gray-600">
-              {edu.startDate || 'Start Date'} - {edu.endDate || 'End Date'}
-            </span>
-          </div>
-          <p class="text-gray-700">{edu.institution || 'Institution'}</p>
-          {#if edu.description}
-            <div class="mt-1 text-sm text-gray-600 tiptap">{@html sanitizeHtml(edu.description)}</div>
-          {/if}
-        </div>
-      {/if}
-    {/each}
-  </div>
-{/if}
-
-{#if resume.skills.some(skill => skill.name)}
-  <div>
-    <h2 class="text-xl font-bold text-blue-800 mb-3">Skills</h2>
-    <div class="flex flex-wrap gap-2">
-      {#each resume.skills as skill}
-        {#if skill.name}
-          <div class="bg-blue-50 border border-blue-200 rounded px-3 py-1">
-            <span class="font-medium">{skill.name}</span>
-            <div class="w-full bg-gray-200 rounded-full h-1.5 mt-1">
-              <div class="bg-blue-600 h-1.5 rounded-full" style="width: {skill.level * 10}%"></div>
-            </div>
-          </div>
-        {/if}
-      {/each}
-    </div>
-  </div>
-{/if}
-
-</div>
-

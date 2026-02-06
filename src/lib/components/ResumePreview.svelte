@@ -3,6 +3,7 @@
   import { onMount, afterUpdate } from 'svelte';
   import type { ComponentType } from 'svelte';
   import ProfessionalTemplate from '../templates/professional.svelte';
+  import { getTemplateById } from '$lib/templateData';
 
   export let resumeData: ResumeData;
   export let templateId: string = 'professional';
@@ -11,15 +12,11 @@
   let component: ComponentType | null = null;
   let templateError = false;
 
-  $: import(`../templates/${templateId}.svelte`)
-    .then(res => {
-      component = res.default;
-      templateError = false;
-    })
-    .catch(() => {
-      component = ProfessionalTemplate;
-      templateError = true;
-    });
+  $: {
+    const selected = getTemplateById(templateId);
+    component = selected?.component || ProfessionalTemplate;
+    templateError = !selected || selected.id !== templateId;
+  }
   let isTwoPage = false;
 
   const checkHeight = () => {
@@ -35,19 +32,14 @@
   afterUpdate(checkHeight);
 </script>
 
-<div class="bg-white rounded-lg shadow resume-preview-panel">
-  <div class="p-4 border-b resume-preview-header">
-    <h2 class="text-xl font-semibold">Preview</h2>
-    <p class="text-sm text-gray-500">Template: {templateId}</p>
-    {#if templateError}
-      <p class="text-xs text-red-600 mt-1">Template not found. Showing Professional.</p>
-    {/if}
-  </div>
-  
-  <div class="overflow-auto overflow-x-hidden max-h-[800px] p-4 bg-gray-100 resume-preview-frame">
+<div class="resume-preview-shell">
+  {#if templateError}
+    <div class="text-xs text-red-600 mb-2 text-center">Template not found. Showing Professional.</div>
+  {/if}
+  <div class="resume-preview-frame">
     <div 
       id="resume-preview" 
-      class="border p-8 bg-white shadow-lg mx-auto"
+      class="resume-preview-page"
       class:two-page={isTwoPage}
     >
       <div class="resume-container" bind:this={resumeContentElement}>
@@ -60,6 +52,29 @@
 </div>
 
 <style>
+  .resume-preview-shell {
+    width: 100%;
+  }
+
+  .resume-preview-frame {
+    background: #f1f5f9;
+    border-radius: 16px;
+    padding: 32px 24px 56px;
+    overflow: auto;
+    max-height: calc(100vh - 180px);
+    display: flex;
+    justify-content: center;
+  }
+
+  .resume-preview-page {
+    border: 1px solid #e2e8f0;
+    padding: 32px;
+    background: #ffffff;
+    box-shadow: 0 20px 60px rgba(15, 23, 42, 0.12);
+    border-radius: 6px;
+    margin: 0 auto;
+  }
+
   /* A4-like dimensions */
   #resume-preview {
     width: 794px;
