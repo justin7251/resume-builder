@@ -1,6 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
-  import type { ResumeData } from '$lib/types';
+  import type { ResumeData, SectionKey } from '$lib/types';
   import TiptapEditor from './TiptapEditor.svelte';
   import AICompareForm from './AICompareForm.svelte';
 
@@ -8,6 +8,14 @@
 
   const dispatch = createEventDispatcher();
   let activeSection = 'personal';
+  const defaultSectionOrder: SectionKey[] = ['summary', 'experience', 'education', 'skills'];
+  let draggingSection: SectionKey | null = null;
+  let showReorder = false;
+
+  $: if (!resumeData.sectionOrder || resumeData.sectionOrder.length === 0) {
+    resumeData.sectionOrder = [...defaultSectionOrder];
+    dispatch('update', resumeData);
+  }
 
   // Functions to manage resume sections
   function addExperience() {
@@ -50,6 +58,47 @@
     dispatch('update', resumeData);
   }
 
+  function moveSection(fromIndex: number, toIndex: number) {
+    if (!resumeData.sectionOrder) return;
+    const next = [...resumeData.sectionOrder];
+    const [moved] = next.splice(fromIndex, 1);
+    next.splice(toIndex, 0, moved);
+    resumeData.sectionOrder = next;
+    dispatch('update', resumeData);
+  }
+
+  function moveUp(section: SectionKey) {
+    const order = resumeData.sectionOrder || defaultSectionOrder;
+    const index = order.indexOf(section);
+    if (index > 0) moveSection(index, index - 1);
+  }
+
+  function moveDown(section: SectionKey) {
+    const order = resumeData.sectionOrder || defaultSectionOrder;
+    const index = order.indexOf(section);
+    if (index !== -1 && index < order.length - 1) moveSection(index, index + 1);
+  }
+
+  function handleDrop(target: SectionKey) {
+    if (!draggingSection || !resumeData.sectionOrder) return;
+    const order = resumeData.sectionOrder;
+    const fromIndex = order.indexOf(draggingSection);
+    const toIndex = order.indexOf(target);
+    if (fromIndex === -1 || toIndex === -1 || fromIndex === toIndex) {
+      draggingSection = null;
+      return;
+    }
+    moveSection(fromIndex, toIndex);
+    draggingSection = null;
+  }
+
+  const sectionLabels: Record<SectionKey, string> = {
+    summary: 'Summary',
+    experience: 'Experience',
+    education: 'Education',
+    skills: 'Skills'
+  };
+
   function escapeHtml(value: string) {
     return value
       .replace(/&/g, '&amp;')
@@ -76,6 +125,56 @@
 
 <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
   <div class="mb-6">
+    <div class="mb-6">
+      <button
+        class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-slate-500"
+        on:click={() => (showReorder = !showReorder)}
+        type="button"
+      >
+        <span class="text-slate-400">{showReorder ? '▾' : '▸'}</span>
+        Reorder Sections
+      </button>
+      {#if showReorder}
+        <div class="mt-3 space-y-2">
+          {#each (resumeData.sectionOrder || defaultSectionOrder) as section, index}
+            <div
+              class="flex items-center justify-between gap-3 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm"
+              draggable="true"
+              on:dragstart={() => (draggingSection = section)}
+              on:dragover|preventDefault
+              on:drop={() => handleDrop(section)}
+            >
+              <div class="flex items-center gap-2 text-slate-700 font-medium">
+                <span class="text-slate-400 cursor-grab">≡</span>
+                {sectionLabels[section]}
+              </div>
+              <div class="flex items-center gap-1">
+                <button
+                  class="px-2 py-1 text-xs rounded-md border border-slate-200 bg-white text-slate-600 hover:bg-slate-100"
+                  on:click={() => moveUp(section)}
+                  disabled={index === 0}
+                  type="button"
+                >
+                  Up
+                </button>
+                <button
+                  class="px-2 py-1 text-xs rounded-md border border-slate-200 bg-white text-slate-600 hover:bg-slate-100"
+                  on:click={() => moveDown(section)}
+                  disabled={index === (resumeData.sectionOrder || defaultSectionOrder).length - 1}
+                  type="button"
+                >
+                  Down
+                </button>
+              </div>
+            </div>
+          {/each}
+        </div>
+        <div class="text-xs text-slate-500 mt-2">
+          Drag sections or use the Up/Down buttons. Personal info stays fixed at the top.
+        </div>
+      {/if}
+    </div>
+
     <div class="flex space-x-3 mb-6 overflow-x-auto pb-2">
       <button 
         class={`px-4 py-2 rounded-full text-sm font-semibold ${activeSection === 'personal' ? 'bg-blue-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}

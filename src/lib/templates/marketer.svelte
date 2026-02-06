@@ -2,6 +2,8 @@
   import type { ResumeData } from '$lib/types';
   import { sanitizeHtml } from '$lib/sanitize';
   export let resume: ResumeData;
+  const defaultSectionOrder = ['summary', 'experience', 'education', 'skills'];
+  $: sectionOrder = resume.sectionOrder?.length ? resume.sectionOrder : defaultSectionOrder;
 </script>
 
 <div class="text-sm leading-relaxed text-slate-800">
@@ -20,35 +22,17 @@
     </div>
   </div>
 
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-    <aside class="md:col-span-1 space-y-6">
-      {#if resume.personal.summary}
+  <div class="space-y-8">
+    {#each sectionOrder as section}
+      {#if section === 'summary' && resume.personal.summary}
         <section>
           <h2 class="text-xs font-semibold uppercase tracking-widest text-emerald-700 mb-3">Profile</h2>
           <div class="text-slate-700 tiptap">{@html sanitizeHtml(resume.personal.summary)}</div>
         </section>
       {/if}
 
-      {#if resume.skills.some(skill => skill.name)}
+      {#if section === 'experience' && resume.experience.some(exp => exp.company || exp.position)}
         <section>
-          <h2 class="text-xs font-semibold uppercase tracking-widest text-emerald-700 mb-3">Core Skills</h2>
-          <div class="space-y-2">
-            {#each resume.skills as skill}
-              {#if skill.name}
-                <div class="flex items-center justify-between text-xs">
-                  <span class="font-semibold text-slate-700">{skill.name}</span>
-                  <span class="text-emerald-700">{skill.level}/10</span>
-                </div>
-              {/if}
-            {/each}
-          </div>
-        </section>
-      {/if}
-    </aside>
-
-    <section class="md:col-span-2 space-y-6">
-      {#if resume.experience.some(exp => exp.company || exp.position)}
-        <div>
           <h2 class="text-xs font-semibold uppercase tracking-widest text-emerald-700 mb-3">Experience</h2>
           {#each resume.experience as exp}
             {#if exp.company || exp.position}
@@ -64,11 +48,11 @@
               </div>
             {/if}
           {/each}
-        </div>
+        </section>
       {/if}
 
-      {#if resume.education.some(edu => edu.institution || edu.degree)}
-        <div>
+      {#if section === 'education' && resume.education.some(edu => edu.institution || edu.degree)}
+        <section>
           <h2 class="text-xs font-semibold uppercase tracking-widest text-emerald-700 mb-3">Education</h2>
           {#each resume.education as edu}
             {#if edu.institution || edu.degree}
@@ -84,9 +68,25 @@
               </div>
             {/if}
           {/each}
-        </div>
+        </section>
       {/if}
-    </section>
+
+      {#if section === 'skills' && resume.skills.some(skill => skill.name)}
+        <section>
+          <h2 class="text-xs font-semibold uppercase tracking-widest text-emerald-700 mb-3">Core Skills</h2>
+          <div class="space-y-2">
+            {#each resume.skills as skill}
+              {#if skill.name}
+                <div class="flex items-center justify-between text-xs">
+                  <span class="font-semibold text-slate-700">{skill.name}</span>
+                  <span class="text-emerald-700">{skill.level}/10</span>
+                </div>
+              {/if}
+            {/each}
+          </div>
+        </section>
+      {/if}
+    {/each}
   </div>
 </div>
 

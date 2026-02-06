@@ -2,6 +2,8 @@
   import type { ResumeData } from '$lib/types';
   import { sanitizeHtml } from '$lib/sanitize';
   export let resume: ResumeData;
+  const defaultSectionOrder = ['summary', 'experience', 'education', 'skills'];
+  $: sectionOrder = resume.sectionOrder?.length ? resume.sectionOrder : defaultSectionOrder;
 </script>
 
 <div class="text-sm leading-relaxed text-slate-800">
@@ -18,16 +20,20 @@
         {#if resume.personal.website}<div>{resume.personal.website}</div>{/if}
       </div>
     </div>
-    {#if resume.personal.summary}
-      <div class="mt-5 bg-slate-50 border border-slate-200 rounded-lg p-4">
-        <div class="text-slate-700 tiptap">{@html sanitizeHtml(resume.personal.summary)}</div>
-      </div>
-    {/if}
   </div>
 
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-    <div class="md:col-span-2 space-y-6">
-      {#if resume.experience.some(exp => exp.company || exp.position)}
+  <div class="space-y-6">
+    {#each sectionOrder as section}
+      {#if section === 'summary' && resume.personal.summary}
+        <section>
+          <h2 class="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-3">Summary</h2>
+          <div class="bg-slate-50 border border-slate-200 rounded-lg p-4">
+            <div class="text-slate-700 tiptap">{@html sanitizeHtml(resume.personal.summary)}</div>
+          </div>
+        </section>
+      {/if}
+
+      {#if section === 'experience' && resume.experience.some(exp => exp.company || exp.position)}
         <section>
           <h2 class="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-3">Experience</h2>
           {#each resume.experience as exp}
@@ -49,7 +55,7 @@
         </section>
       {/if}
 
-      {#if resume.education.some(edu => edu.institution || edu.degree)}
+      {#if section === 'education' && resume.education.some(edu => edu.institution || edu.degree)}
         <section>
           <h2 class="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-3">Education</h2>
           {#each resume.education as edu}
@@ -70,10 +76,8 @@
           {/each}
         </section>
       {/if}
-    </div>
 
-    <aside class="space-y-4">
-      {#if resume.skills.some(skill => skill.name)}
+      {#if section === 'skills' && resume.skills.some(skill => skill.name)}
         <section>
           <h2 class="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-3">Skills</h2>
           <div class="flex flex-wrap gap-2">
@@ -87,7 +91,7 @@
           </div>
         </section>
       {/if}
-    </aside>
+    {/each}
   </div>
 </div>
 

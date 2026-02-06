@@ -2,6 +2,8 @@
   import type { ResumeData } from '$lib/types';
   import { sanitizeHtml } from '$lib/sanitize';
   export let resume: ResumeData;
+  const defaultSectionOrder = ['summary', 'experience', 'education', 'skills'];
+  $: sectionOrder = resume.sectionOrder?.length ? resume.sectionOrder : defaultSectionOrder;
 </script>
 
 <div class="text-sm leading-relaxed text-slate-800">
@@ -20,38 +22,53 @@
     </div>
   </div>
 
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-    <section class="md:col-span-2">
-      {#if resume.experience.some(exp => exp.company || exp.position)}
-        <h2 class="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-3">Professional Experience</h2>
-        <div class="space-y-4">
-          {#each resume.experience as exp}
-            {#if exp.company || exp.position}
-              <div class="rounded-lg border border-slate-200 p-4">
-                <div class="flex justify-between text-xs text-slate-500">
-                  <span>{exp.startDate || 'Start'} - {exp.current ? 'Present' : (exp.endDate || 'End')}</span>
-                  <span>{exp.company || 'Company'}</span>
+  <div class="space-y-8">
+    {#each sectionOrder as section}
+      {#if section === 'summary' && resume.personal.summary}
+        <section>
+          <h2 class="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-3">Summary</h2>
+          <div class="text-slate-700 tiptap">{@html sanitizeHtml(resume.personal.summary)}</div>
+        </section>
+      {/if}
+
+      {#if section === 'experience' && resume.experience.some(exp => exp.company || exp.position)}
+        <section>
+          <h2 class="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-3">Professional Experience</h2>
+          <div class="space-y-4">
+            {#each resume.experience as exp}
+              {#if exp.company || exp.position}
+                <div class="rounded-lg border border-slate-200 p-4">
+                  <div class="flex justify-between text-xs text-slate-500">
+                    <span>{exp.startDate || 'Start'} - {exp.current ? 'Present' : (exp.endDate || 'End')}</span>
+                    <span>{exp.company || 'Company'}</span>
+                  </div>
+                  <h3 class="font-semibold">{exp.position || 'Position'}</h3>
+                  {#if exp.description}
+                    <div class="mt-2 text-xs text-slate-600 tiptap">{@html sanitizeHtml(exp.description)}</div>
+                  {/if}
                 </div>
-                <h3 class="font-semibold">{exp.position || 'Position'}</h3>
-                {#if exp.description}
-                  <div class="mt-2 text-xs text-slate-600 tiptap">{@html sanitizeHtml(exp.description)}</div>
-                {/if}
+              {/if}
+            {/each}
+          </div>
+        </section>
+      {/if}
+
+      {#if section === 'education' && resume.education.some(edu => edu.institution || edu.degree)}
+        <section>
+          <h2 class="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-3">Education</h2>
+          {#each resume.education as edu}
+            {#if edu.institution || edu.degree}
+              <div class="mb-3">
+                <div class="font-semibold">{edu.degree || 'Degree'}</div>
+                <div class="text-slate-600">{edu.institution || 'Institution'}</div>
+                <div class="text-xs text-slate-500">{edu.startDate || 'Start'} - {edu.endDate || 'End'}</div>
               </div>
             {/if}
           {/each}
-        </div>
+        </section>
       {/if}
 
-      {#if resume.personal.summary}
-        <div class="mt-6">
-          <h2 class="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-3">Summary</h2>
-          <div class="text-slate-700 tiptap">{@html sanitizeHtml(resume.personal.summary)}</div>
-        </div>
-      {/if}
-    </section>
-
-    <aside class="md:col-span-1 space-y-6">
-      {#if resume.skills.some(skill => skill.name)}
+      {#if section === 'skills' && resume.skills.some(skill => skill.name)}
         <section>
           <h2 class="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-3">Skills</h2>
           <div class="space-y-2">
@@ -66,22 +83,7 @@
           </div>
         </section>
       {/if}
-
-      {#if resume.education.some(edu => edu.institution || edu.degree)}
-        <section>
-          <h2 class="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-3">Education</h2>
-          {#each resume.education as edu}
-            {#if edu.institution || edu.degree}
-              <div class="mb-3">
-                <div class="font-semibold">{edu.degree || 'Degree'}</div>
-                <div class="text-slate-600">{edu.institution || 'Institution'}</div>
-                <div class="text-xs text-slate-500">{edu.startDate || 'Start'} - {edu.endDate || 'End'}</div>
-              </div>
-            {/if}
-          {/each}
-        </section>
-      {/if}
-    </aside>
+    {/each}
   </div>
 </div>
 

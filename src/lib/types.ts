@@ -36,4 +36,7 @@ export interface ResumeData {
   experience: ExperienceItem[];
   education: EducationItem[];
   skills: SkillItem[];
+  sectionOrder: SectionKey[];
 }
+
+export type SectionKey = 'summary' | 'experience' | 'education' | 'skills';

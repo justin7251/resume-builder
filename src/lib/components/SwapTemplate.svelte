@@ -65,7 +65,8 @@
                 skills: [
                   { name: 'Figma', level: 9 },
                   { name: 'Design Systems', level: 8 }
-                ]
+                ],
+                sectionOrder: ['summary', 'experience', 'education', 'skills']
               }} />
             </div>
           </div>
