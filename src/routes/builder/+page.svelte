@@ -23,6 +23,9 @@ import { getTemplateById } from '$lib/templateData';
   let summaryDiff: { current: string; next: string; changed: boolean }[] = [];
   let experienceDiff: { current: string; next: string; changed: boolean }[] = [];
   let educationDiff: { current: string; next: string; changed: boolean }[] = [];
+  let isPdfImporting = false;
+  let pdfImportError = '';
+  let pdfFileInput: HTMLInputElement | null = null;
   let pendingProofread: {
     summary_html?: string;
     experience_html?: string[];
@@ -244,6 +247,217 @@ import { getTemplateById } from '$lib/templateData';
       .filter(Boolean);
   }
 
+  function textToHtml(value: string) {
+    const trimmed = value.trim();
+    if (!trimmed) return '';
+    const escaped = trimmed
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+    const paragraphs = escaped.split(/\n{2,}/).map(p => p.replace(/\n/g, '<br />'));
+    return `<p>${paragraphs.join('</p><p>')}</p>`;
+  }
+
+  function linesToListHtml(lines: string[]) {
+    const cleaned = lines.map(line => line.replace(/^[-•\u2022]\s*/, '').trim()).filter(Boolean);
+    if (!cleaned.length) return '';
+    const items = cleaned.map(line => `<li>${line}</li>`).join('');
+    return `<ul>${items}</ul>`;
+  }
+
+  function parseResumeText(text: string) {
+    const lines = text
+      .replace(/\r/g, '')
+      .split('\n')
+      .map(line => line.trim())
+      .filter(Boolean);
+
+    const headings = {
+      summary: ['summary', 'profile', 'professional summary', 'objective', 'about'],
+      experience: ['experience', 'work experience', 'employment', 'work history', 'professional experience'],
+      education: ['education', 'academics'],
+      skills: ['skills', 'technical skills', 'core skills', 'competencies']
+    };
+
+    const sections: Record<string, string[]> = {
+      summary: [],
+      experience: [],
+      education: [],
+      skills: []
+    };
+
+    let current: keyof typeof sections | null = null;
+    for (const line of lines) {
+      const normalized = line.toLowerCase();
+      const matched = (Object.keys(headings) as Array<keyof typeof headings>).find((key) =>
+        headings[key].some((label) => normalized === label || normalized.startsWith(`${label}:`))
+      );
+      if (matched) {
+        current = matched;
+        continue;
+      }
+      if (current) {
+        sections[current].push(line);
+      }
+    }
+
+    const emailMatch = text.match(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i);
+    const phoneMatch = text.match(/(\+?\d[\d\s().-]{7,}\d)/);
+
+    const nameLine = lines.find((line) => {
+      const lower = line.toLowerCase();
+      if (emailMatch && line.includes(emailMatch[0])) return false;
+      if (phoneMatch && line.includes(phoneMatch[0])) return false;
+      if (Object.values(headings).some((labels) => labels.includes(lower))) return false;
+      return /[a-zA-Z]/.test(line);
+    }) || '';
+
+    const summaryText = sections.summary.join('\n');
+    const skillsTokens = sections.skills
+      .join(' ')
+      .split(/[,|•\u2022]/)
+      .map((token) => token.trim())
+      .filter(Boolean);
+
+    const experienceLines = sections.experience;
+    const educationLines = sections.education;
+
+    const findDateLine = (items: string[]) =>
+      items.find(line => /\b(19|20)\d{2}\b/.test(line) || /present|current/i.test(line)) || '';
+
+    const experienceDescription = linesToListHtml(experienceLines.slice(2));
+    const educationDescription = linesToListHtml(educationLines.slice(2));
+
+    return {
+      name: nameLine,
+      email: emailMatch?.[0] || '',
+      phone: phoneMatch?.[0] || '',
+      summary: summaryText,
+      experience: {
+        position: experienceLines[0] || '',
+        company: experienceLines[1] || '',
+        dates: findDateLine(experienceLines)
+      },
+      experienceDescription,
+      education: {
+        degree: educationLines[0] || '',
+        institution: educationLines[1] || '',
+        dates: findDateLine(educationLines)
+      },
+      educationDescription,
+      skills: skillsTokens
+    };
+  }
+
+  async function extractPdfTextClient(file: File): Promise<string> {
+    if (!browser) return '';
+    const pdfjsLib = await import('pdfjs-dist/legacy/build/pdf');
+    pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
+      'pdfjs-dist/legacy/build/pdf.worker.mjs',
+      import.meta.url
+    ).toString();
+
+    const data = await file.arrayBuffer();
+    const pdf = await pdfjsLib.getDocument({ data }).promise;
+    const pageTexts: string[] = [];
+    for (let i = 1; i <= pdf.numPages; i += 1) {
+      const page = await pdf.getPage(i);
+      const content = await page.getTextContent();
+      const strings = content.items.map((item: any) => item?.str).filter(Boolean);
+      pageTexts.push(strings.join(' '));
+    }
+    return pageTexts.join('\n');
+  }
+
+  async function extractPdfTextServer(file: File): Promise<string> {
+    const formData = new FormData();
+    formData.append('file', file);
+    const response = await fetch('/api/parse-pdf', {
+      method: 'POST',
+      body: formData
+    });
+    if (!response.ok) {
+      const data = await response.json().catch(() => ({}));
+      throw new Error(data?.error || 'Server PDF parsing failed.');
+    }
+    const data = await response.json();
+    return data?.text || '';
+  }
+
+  async function handlePdfUpload(event: Event) {
+    const input = event.currentTarget as HTMLInputElement;
+    const file = input?.files?.[0];
+    if (!file) return;
+    if (!confirm('Import this PDF and overwrite your current resume data?')) {
+      if (pdfFileInput) pdfFileInput.value = '';
+      return;
+    }
+
+    pdfImportError = '';
+    isPdfImporting = true;
+    try {
+      let text = '';
+      try {
+        text = await extractPdfTextClient(file);
+      } catch {
+        text = '';
+      }
+      if (!text) {
+        text = await extractPdfTextServer(file);
+      }
+      if (!text) throw new Error('No text could be extracted from the PDF.');
+
+      const parsed = parseResumeText(text);
+      const next = { ...resumeData };
+      next.personal = {
+        ...next.personal,
+        name: parsed.name || next.personal.name,
+        email: parsed.email || next.personal.email,
+        phone: parsed.phone || next.personal.phone,
+        summary: parsed.summary ? textToHtml(parsed.summary) : next.personal.summary
+      };
+
+      if (parsed.skills.length) {
+        next.skills = parsed.skills.map((name) => ({ name, level: 5 }));
+      }
+
+      if (parsed.experience.position || parsed.experience.company || parsed.experienceDescription) {
+        next.experience = [
+          {
+            company: parsed.experience.company,
+            position: parsed.experience.position,
+            startDate: '',
+            endDate: '',
+            description: parsed.experienceDescription,
+            current: false
+          }
+        ];
+      }
+
+      if (parsed.education.institution || parsed.education.degree || parsed.educationDescription) {
+        next.education = [
+          {
+            institution: parsed.education.institution,
+            degree: parsed.education.degree,
+            field: '',
+            startDate: '',
+            endDate: '',
+            description: parsed.educationDescription
+          }
+        ];
+      }
+
+      resume.set(next);
+    } catch (error) {
+      pdfImportError = error instanceof Error ? error.message : 'PDF import failed.';
+    } finally {
+      isPdfImporting = false;
+      if (pdfFileInput) pdfFileInput.value = '';
+    }
+  }
+
   function buildDiff(currentText: string, nextText: string) {
     const currentLines = htmlToLines(currentText);
     const nextLines = htmlToLines(nextText);
@@ -445,6 +659,21 @@ import { getTemplateById } from '$lib/templateData';
         Reset
       </button>
       <button
+        on:click={() => pdfFileInput?.click()}
+        class="flex items-center gap-2 px-4 py-2 text-sm font-semibold bg-white border border-slate-200 text-slate-600 rounded-lg hover:bg-slate-50"
+        disabled={isPdfImporting}
+      >
+        <span class="material-symbols-outlined text-lg">upload_file</span>
+        {isPdfImporting ? 'Importing...' : 'Upload PDF'}
+      </button>
+      <input
+        type="file"
+        accept="application/pdf"
+        class="hidden"
+        bind:this={pdfFileInput}
+        on:change={handlePdfUpload}
+      />
+      <button
         on:click={handleProofread}
         class="flex items-center gap-2 px-4 py-2 text-sm font-semibold bg-white border border-slate-200 text-slate-600 rounded-lg hover:bg-slate-50"
         disabled={isProofreading}
@@ -471,6 +700,11 @@ import { getTemplateById } from '$lib/templateData';
   {#if proofreadError}
     <div class="bg-red-50 text-red-700 text-sm px-6 py-3 border-b border-red-100">
       {proofreadError}
+    </div>
+  {/if}
+  {#if pdfImportError}
+    <div class="bg-red-50 text-red-700 text-sm px-6 py-3 border-b border-red-100">
+      {pdfImportError}
     </div>
   {/if}
 

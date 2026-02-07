@@ -1,5 +1,5 @@
 <svelte:head>
-	<title>Dashboard - ResumePro</title>
+	<title>Dashboard - Resume Builder</title>
 </svelte:head>
 
 <div class="min-h-screen bg-slate-50 text-slate-900">
@@ -7,7 +7,7 @@
 		<div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
 			<div class="flex items-center gap-3 font-semibold">
 				<span class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-blue-600 text-white">R</span>
-				<span>ResumePro</span>
+				<span>Resume Builder</span>
 			</div>
 			<nav class="hidden md:flex items-center gap-6 text-sm text-slate-500">
 				<a href="/dashboard" class="text-blue-600 font-semibold">Dashboard</a>

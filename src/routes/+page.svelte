@@ -3,7 +3,7 @@
 </script>
 
 <svelte:head>
-	<title>ResumePro - Create a Resume That Gets You Hired</title>
+	<title>Resume Builder - Create a Resume That Gets You Hired</title>
 	<meta
 		name="description"
 		content="Build a professional, ATS-friendly resume in minutes. Choose a template, add your details, and download a polished PDF."
@@ -11,28 +11,6 @@
 </svelte:head>
 
 <div class="bg-slate-50 text-slate-900">
-	<nav class="container mx-auto px-4 py-6 flex items-center justify-between">
-		<div class="flex items-center gap-3 font-display font-semibold text-lg">
-			<span class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-blue-600 text-white">R</span>
-			<span>ResumePro</span>
-		</div>
-		<div class="hidden md:flex items-center gap-8 text-sm text-slate-500">
-			<a href="/templates" class="hover:text-slate-900">Templates</a>
-			<a href="/pricing" class="hover:text-slate-900">Pricing</a>
-			<a href="/resources" class="hover:text-slate-900">Resources</a>
-			<a href="/tips" class="hover:text-slate-900">Tips</a>
-		</div>
-		<div class="flex items-center gap-3 text-sm">
-			<a href="/login" class="hidden md:inline-flex items-center justify-center rounded-full h-10 px-4 text-slate-600 font-semibold hover:text-slate-900">Login</a>
-			<a
-				href="/builder"
-				class="flex min-w-[150px] items-center justify-center rounded-full h-10 px-5 bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 shadow-sm"
-			>
-				Create My Resume
-			</a>
-		</div>
-	</nav>
-
 	<header class="container mx-auto px-4 pb-16 pt-4">
 		<div class="grid lg:grid-cols-2 gap-12 items-center">
 			<div>
@@ -151,7 +129,7 @@
 				<div class="absolute -bottom-14 -left-6 h-40 w-40 rounded-full bg-blue-500/40"></div>
 				<h2 class="font-display text-3xl font-bold">Ready to Land Your Dream Interview?</h2>
 				<p class="mt-3 text-blue-100 max-w-2xl mx-auto">
-					Join thousands of successful professionals who used ResumePro to jumpstart their careers.
+					Join thousands of successful professionals who used Resume Builder to jumpstart their careers.
 				</p>
 				<a
 					href="/builder"
@@ -164,36 +142,4 @@
 		</div>
 	</section>
 
-	<footer class="border-t border-slate-200 py-10 bg-white">
-		<div class="container mx-auto px-4 grid md:grid-cols-4 gap-8 text-sm text-slate-600">
-			<div>
-				<div class="font-display font-semibold text-slate-900 mb-2">ResumePro</div>
-				<p>Build resumes that get noticed by recruiters and hiring managers.</p>
-			</div>
-			<div>
-				<div class="font-semibold text-slate-900 mb-2">Product</div>
-				<ul class="space-y-2">
-					<li><a href="/templates" class="hover:text-slate-900">Resume Templates</a></li>
-					<li><a href="/builder" class="hover:text-slate-900">Resume Builder</a></li>
-					<li><a href="/pricing" class="hover:text-slate-900">Pricing</a></li>
-				</ul>
-			</div>
-			<div>
-				<div class="font-semibold text-slate-900 mb-2">Support</div>
-				<ul class="space-y-2">
-					<li><a href="/faq" class="hover:text-slate-900">FAQs</a></li>
-					<li><a href="/contact" class="hover:text-slate-900">Contact Us</a></li>
-					<li><a href="/blog" class="hover:text-slate-900">Blog</a></li>
-				</ul>
-			</div>
-			<div>
-				<div class="font-semibold text-slate-900 mb-2">Legal</div>
-				<ul class="space-y-2">
-					<li><a href="/privacy" class="hover:text-slate-900">Privacy Policy</a></li>
-					<li><a href="/terms" class="hover:text-slate-900">Terms of Service</a></li>
-					<li><a href="/cookies" class="hover:text-slate-900">Cookie Policy</a></li>
-				</ul>
-			</div>
-		</div>
-	</footer>
 </div>

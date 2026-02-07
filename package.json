@@ -41,6 +41,8 @@
   },
   "dependencies": {
     "dompurify": "^3.2.4",
+    "pdf-parse": "^1.1.1",
+    "pdfjs-dist": "^4.2.67",
     "svelte-feather-icons": "^4.2.0"
   }
 }
